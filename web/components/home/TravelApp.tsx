@@ -5,7 +5,7 @@ import { useState } from "react";
 import HomeBackdrop from "./HomeBackdrop";
 import Logo from "./Logo";
 import PhoneFrame from "./PhoneFrame";
-
+import HomeFooter from "./Footer";
 
 
 type AppScreen = "intro" | "zooming" | "home";
@@ -52,7 +52,7 @@ export default function TravelApp() {
         </section>
       ) : (
         <section className="home-enter flex h-full flex-col bg-[#fbfbff]">
-          <header className="flex items-center justify-between border-b border-slate-200 px-5 pb-4 pt-14">
+          <header className="flex items-center justify-between border-b border-slate-200 px-5 pb-4 pt-8">
             <Logo />
             <div className="grid h-10 w-10 place-items-center rounded-full border-2 border-[#6ed7c9] bg-[#e9fffb] text-xl">
               ?            </div>
@@ -76,13 +76,14 @@ export default function TravelApp() {
             </div>
             <section>
               <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-lg font-bold">Байршлын цаг агаар</h2>
+                <h2 className="text-lg font-bold">Цаг агаар</h2>
                 <span className="text-sm font-semibold text-[#0b7f71]">7 хоног →</span>
               </div>
            
             </section>
             
           </div>
+          <HomeFooter />
         </section>
       )}
         </PhoneFrame>

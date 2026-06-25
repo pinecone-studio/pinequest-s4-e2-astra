@@ -1,13 +1,64 @@
 import { prisma } from "@/lib/prisma";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
 export async function PUT(request: Request) {
   try {
-    const { userId, phone, name, profileImage } = await request.json();
+    const authHeader = request.headers.get("authorization");
+    let token = "";
 
-    if (!userId) {
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.split(" ")[1];
+    }
+
+    if (!token) {
       return NextResponse.json(
-        { error: "Хэрэглэгчийн ID шаардлагатай" },
+        { error: "Нэвтрэх токен шаардлагатай" },
+        { status: 401 },
+      );
+    }
+
+    let decoded: any;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (err) {
+      return NextResponse.json(
+        { error: "Хүчингүй эсвэл хугацаа нь дууссан токен" },
+        { status: 401 },
+      );
+    }
+
+    const userId = decoded.userId;
+    const { currentPassword, phone, name, profileImage, newPassword } =
+      await request.json();
+
+    if (!currentPassword) {
+      return NextResponse.json(
+        { error: "Үйлдэл хийхийн тулд одоогийн нууц үгээ оруулна уу" },
+        { status: 400 },
+      );
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user || !user.password) {
+      return NextResponse.json(
+        { error: "Хэрэглэгч олдсонгүй" },
+        { status: 404 },
+      );
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      currentPassword,
+      user.password,
+    );
+
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { error: "Одоогийн нууц үг буруу байна" },
         { status: 400 },
       );
     }
@@ -27,13 +78,19 @@ export async function PUT(request: Request) {
       }
     }
 
+    const updateData: any = {};
+    if (phone) updateData.phone = phone;
+    if (name) updateData.name = name;
+    if (profileImage) updateData.profileImage = profileImage;
+
+    if (newPassword) {
+      const salt = await bcrypt.genSalt(10);
+      updateData.password = await bcrypt.hash(newPassword, salt);
+    }
+
     const updatedUser = await prisma.user.update({
       where: { id: userId },
-      data: {
-        ...(phone && { phone }),
-        ...(name && { name }),
-        ...(profileImage && { profileImage }),
-      },
+      data: updateData,
     });
 
     return NextResponse.json({
@@ -41,8 +98,8 @@ export async function PUT(request: Request) {
       user: {
         id: updatedUser.id,
         email: updatedUser.email,
-        username: updatedUser.username,
         name: updatedUser.name,
+        username: updatedUser.username,
         phone: updatedUser.phone,
         profileImage: updatedUser.profileImage,
       },

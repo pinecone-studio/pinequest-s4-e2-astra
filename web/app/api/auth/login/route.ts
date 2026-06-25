@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -33,8 +34,15 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({
+    const token = jwt.sign(
+      { userId: user.id, email: user.email },
+      process.env.JWT_SECRET!,
+      { expiresIn: "7d" },
+    );
+
+    const response = NextResponse.json({
       message: "Амжилттай нэвтэрлээ",
+      token,
       user: {
         id: user.id,
         email: user.email,
@@ -43,6 +51,16 @@ export async function POST(request: Request) {
         profileImage: user.profileImage,
       },
     });
+
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24 * 7,
+      path: "/",
+    });
+
+    return response;
   } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json(

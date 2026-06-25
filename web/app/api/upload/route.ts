@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +12,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Файл олдсонгүй" }, { status: 400 });
     }
 
-    const blob = await put(file.name, file, { access: "public" });
+    const blob = await put(file.name, file, {
+      access: "public",
+    });
 
     if (userId) {
       await prisma.user.update({
@@ -23,8 +23,13 @@ export async function POST(request: Request) {
       });
     }
 
-    return NextResponse.json({ success: true, url: blob.url });
+    return NextResponse.json({
+      success: true,
+      url: blob.url,
+    });
   } catch (error: any) {
+    console.error(error);
+
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

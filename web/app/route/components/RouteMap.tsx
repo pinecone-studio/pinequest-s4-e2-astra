@@ -116,13 +116,21 @@ export default function RouteMap() {
         drawNearestGasStationRoute(map, origin, nearestStation, routeGeometry),
       ];
       setGasStationStatus(
-        `Тантай хамгийн ойр бензин колонк ${formatDistance(routeDistance)} зайд байна.`,
+        `Тантай хамгийн ойр шатахуун түгээх станц ${formatDistance(routeDistance)} зайд байна.`,
       );
     } catch {
       setGasStationStatus("Could not load nearby gas stations.");
     } finally {
       setIsFindingGasStation(false);
     }
+  };
+
+  const handleRecenterLocation = () => {
+    mapRef.current?.easeTo({
+      center: currentPointRef.current,
+      zoom: Math.max(mapRef.current.getZoom(), 15),
+      duration: 700,
+    });
   };
 
   return (
@@ -139,6 +147,7 @@ export default function RouteMap() {
         gasStationStatus={gasStationStatus}
         isFindingGasStation={isFindingGasStation}
         onFindGasStation={handleFindGasStation}
+        onRecenterLocation={handleRecenterLocation}
       />
     </div>
   );

@@ -16,7 +16,7 @@ import PhoneFrame from "@/components/home/PhoneFrame";
 import HomeBackdrop from "@/components/home/HomeBackdrop";
 import { LinkProps } from "next/link";
 
-const Setting = () => {
+const setting = () => {
   return (
     <div className="relative min-h-screen flex items-center justify-center">
       <HomeBackdrop active={true} />
@@ -29,4 +29,4 @@ const Setting = () => {
   );
 };
 
-export default Setting;
+export default setting;

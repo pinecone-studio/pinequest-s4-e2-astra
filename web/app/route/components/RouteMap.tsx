@@ -109,7 +109,7 @@ export default function RouteMap() {
         ({
           type: "LineString",
           coordinates: [origin, nearestStation.center],
-        } satisfies GeoJSON.LineString);
+        } as const);
       const routeDistance = route?.distance ?? nearestStation.distanceMeters;
 
       gasMarkersRef.current = [

@@ -24,8 +24,13 @@ export type GasStation = {
   distanceMeters: number;
 };
 
+export type RouteLineGeometry = {
+  type: "LineString";
+  coordinates: Coordinate[];
+};
+
 export type DirectionsRoute = {
   distance: number;
   duration: number;
-  geometry: GeoJSON.LineString;
+  geometry: RouteLineGeometry;
 };

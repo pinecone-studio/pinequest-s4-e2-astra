@@ -1,5 +1,5 @@
 import mapboxgl from "mapbox-gl";
-import type { Coordinate, GasStation } from "./routeMap.types";
+import type { Coordinate, GasStation, RouteLineGeometry } from "./routeMap.types";
 import { gasRouteLayerId, gasRouteSourceId, locationAccuracySourceId } from "./routeMapUtils";
 
 type MarkerRef = {
@@ -38,7 +38,7 @@ export const drawNearestGasStationRoute = (
   map: mapboxgl.Map,
   origin: Coordinate,
   station: GasStation,
-  geometry: GeoJSON.LineString,
+  geometry: RouteLineGeometry,
 ) => {
   map.addSource(gasRouteSourceId, {
     type: "geojson",
@@ -113,7 +113,7 @@ const upsertAccuracyCircle = (map: mapboxgl.Map, point: Coordinate, accuracy: nu
   });
 };
 
-const fitGeometry = (map: mapboxgl.Map, origin: Coordinate, geometry: GeoJSON.LineString) => {
+const fitGeometry = (map: mapboxgl.Map, origin: Coordinate, geometry: RouteLineGeometry) => {
   const bounds = geometry.coordinates.reduce(
     (routeBounds, coordinate) => routeBounds.extend(coordinate as Coordinate),
     new mapboxgl.LngLatBounds(origin, origin),

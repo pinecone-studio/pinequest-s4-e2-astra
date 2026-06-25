@@ -18,7 +18,7 @@ model User {
   username     String        @unique             
   password     String
   name         String?
-  phoneNumber  String?                            
+  phone        String?  @unique
   profileImage String?                            
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt

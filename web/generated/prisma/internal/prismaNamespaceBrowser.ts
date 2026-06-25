@@ -80,7 +80,7 @@ export const UserScalarFieldEnum = {
   username: 'username',
   password: 'password',
   name: 'name',
-  phoneNumber: 'phoneNumber',
+  phone: 'phone',
   profileImage: 'profileImage',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

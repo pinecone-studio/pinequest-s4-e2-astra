@@ -1,16 +1,18 @@
-import { ArrowLeft, Fuel } from "lucide-react";
+import { ArrowLeft, Crosshair, Fuel } from "lucide-react";
 import Link from "next/link";
 
 type RouteMapControlsProps = {
   gasStationStatus: string;
   isFindingGasStation: boolean;
   onFindGasStation: () => void;
+  onRecenterLocation: () => void;
 };
 
 export default function RouteMapControls({
   gasStationStatus,
   isFindingGasStation,
   onFindGasStation,
+  onRecenterLocation,
 }: RouteMapControlsProps) {
   return (
     <>
@@ -31,6 +33,16 @@ export default function RouteMapControls({
         className="absolute left-6 top-20 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-orange-600 shadow-lg backdrop-blur transition hover:bg-white active:scale-95 disabled:cursor-wait disabled:opacity-75"
       >
         <Fuel className="h-5 w-5" strokeWidth={2.4} />
+      </button>
+
+      <button
+        type="button"
+        aria-label="Go to my location"
+        title="Go to my location"
+        onClick={onRecenterLocation}
+        className="absolute left-6 top-[8.25rem] z-20 flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-blue-600 shadow-lg backdrop-blur transition hover:bg-white active:scale-95"
+      >
+        <Crosshair className="h-5 w-5" strokeWidth={2.4} />
       </button>
 
       {gasStationStatus && (

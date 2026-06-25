@@ -4,6 +4,7 @@ import About from "./About";
 import Features from "./Features";
 import DestinationGallery from "./DestinationGrid";
 import CTASection from "./CTASection";
+import Footer from "./Footer";
 
 export default function LandingPage() {
   return (
@@ -14,6 +15,7 @@ export default function LandingPage() {
             <Features />
                <DestinationGallery />
                <CTASection />
+               <Footer />
     </main>
   );
 }

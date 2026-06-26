@@ -1,12 +1,27 @@
 import { prisma } from "@/lib/prisma";
 import { put } from "@vercel/blob";
+import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
+    const authHeader = request.headers.get("authorization");
+    const token = authHeader?.split(" ")[1];
+
+    if (!token) {
+      return NextResponse.json(
+        { error: "Нэвтрэх токен олдсонгүй" },
+        { status: 401 },
+      );
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+      userId: string;
+    };
+    const userId = decoded.userId;
+
     const formData = await request.formData();
     const file = formData.get("file") as File;
-    const userId = formData.get("userId") as string;
 
     if (!file) {
       return NextResponse.json({ error: "Файл олдсонгүй" }, { status: 400 });
@@ -16,12 +31,10 @@ export async function POST(request: Request) {
       access: "public",
     });
 
-    if (userId) {
-      await prisma.user.update({
-        where: { id: userId },
-        data: { profileImage: blob.url },
-      });
-    }
+    await prisma.user.update({
+      where: { id: userId },
+      data: { profileImage: blob.url },
+    });
 
     return NextResponse.json({
       success: true,
@@ -29,7 +42,6 @@ export async function POST(request: Request) {
     });
   } catch (error: any) {
     console.error(error);
-
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

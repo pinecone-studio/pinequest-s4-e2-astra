@@ -1,10 +1,9 @@
-
 export default function Hero() {
   return (
     <section className="relative h-[800px] overflow-hidden">
       <img
-        src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
-        alt="Mongolia"
+        src="dembee-tsogoo-PU_hcOj2rFI-unsplash.jpg"
+        alt="Mongolian sunset with ger"
         className="absolute inset-0 h-full w-full object-cover"
       />
 
@@ -36,3 +35,5 @@ export default function Hero() {
     </section>
   );
 }
+
+// pinequest-s4-e2-team-4 https://deih43ym53wif.cloudfront.net/large_yurta-mongolia-shutterstock_600892928_dc8a31bf9c.jpeg

@@ -6,22 +6,22 @@ const destinations = [
   {
     title: "Khuvsgul Lake",
     image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+      "sodo-sane-eDcdGQRSVj8-unsplash.jpg",
   },
   {
     title: "Gobi Desert",
     image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+      "usukhbayar-gankhuyag-fjCihZthrAo-unsplash.jpg",
   },
   {
     title: "Gorkhi-Terelj",
     image:
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b",
+      "adil-edin-GUwlwDVQN_g-unsplash.jpg",
   },
   {
     title: "Altai Tavan Bogd",
     image:
-      "https://images.unsplash.com/photo-1511497584788-876760111969",
+      "konstantin-dyadyun-7-6Fhdc2LJc-unsplash.jpg",
   },
 ];
 

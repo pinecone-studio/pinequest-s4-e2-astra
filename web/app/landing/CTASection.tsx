@@ -4,7 +4,7 @@ export default function CTASection() {
     <section className="mx-auto max-w-7xl px-8 py-24">
       <div className="relative overflow-hidden rounded-[24px]">
         <img
-          src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+          src="bolatbek-gabiden-ogoOCZ9SdYw-unsplash.jpg"
           alt=""
           className="h-[320px] w-full object-cover"
         />

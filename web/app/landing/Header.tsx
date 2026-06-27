@@ -34,10 +34,7 @@ export default function Header() {
           </button>
 
           {/* CTA mini (optional but looks pro) */}
-          <button className="rounded-full bg-teal-700 px-5 py-2 text-sm text-white font-medium shadow-sm transition
-                             hover:bg-teal-800 hover:shadow-md active:scale-95">
-            Аяллаа эхлүүлэх
-          </button>
+        
 
         </div>
 

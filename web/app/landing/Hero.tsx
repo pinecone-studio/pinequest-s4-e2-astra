@@ -74,4 +74,4 @@ export default function Hero() {
     </section>
   );
 }
-// pinequest-s4-e2-team-4 https://deih43ym53wif.cloudfront.net/large_yurta-mongolia-shutterstock_600892928_dc8a31bf9c.jpeg
+// pinequest-s4-e2-team-4 

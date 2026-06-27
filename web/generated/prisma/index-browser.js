@@ -174,6 +174,17 @@ exports.Prisma.VerificationCodeScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.ChecklistScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  category: 'category',
+  isCompleted: 'isCompleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  tripId: 'tripId',
+  sessionId: 'sessionId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -196,7 +207,8 @@ exports.Prisma.ModelName = {
   Destination: 'Destination',
   ChatSession: 'ChatSession',
   Message: 'Message',
-  VerificationCode: 'VerificationCode'
+  VerificationCode: 'VerificationCode',
+  Checklist: 'Checklist'
 };
 
 /**

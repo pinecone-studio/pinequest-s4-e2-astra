@@ -43,6 +43,11 @@ export type Message = $Result.DefaultSelection<Prisma.$MessagePayload>
  * 
  */
 export type VerificationCode = $Result.DefaultSelection<Prisma.$VerificationCodePayload>
+/**
+ * Model Checklist
+ * 
+ */
+export type Checklist = $Result.DefaultSelection<Prisma.$ChecklistPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -224,6 +229,16 @@ export class PrismaClient<
     * ```
     */
   get verificationCode(): Prisma.VerificationCodeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.checklist`: Exposes CRUD operations for the **Checklist** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Checklists
+    * const checklists = await prisma.checklist.findMany()
+    * ```
+    */
+  get checklist(): Prisma.ChecklistDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -663,7 +678,8 @@ export namespace Prisma {
     Destination: 'Destination',
     ChatSession: 'ChatSession',
     Message: 'Message',
-    VerificationCode: 'VerificationCode'
+    VerificationCode: 'VerificationCode',
+    Checklist: 'Checklist'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -679,7 +695,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "trip" | "destination" | "chatSession" | "message" | "verificationCode"
+      modelProps: "user" | "trip" | "destination" | "chatSession" | "message" | "verificationCode" | "checklist"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1127,6 +1143,80 @@ export namespace Prisma {
           }
         }
       }
+      Checklist: {
+        payload: Prisma.$ChecklistPayload<ExtArgs>
+        fields: Prisma.ChecklistFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ChecklistFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ChecklistFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistPayload>
+          }
+          findFirst: {
+            args: Prisma.ChecklistFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ChecklistFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistPayload>
+          }
+          findMany: {
+            args: Prisma.ChecklistFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistPayload>[]
+          }
+          create: {
+            args: Prisma.ChecklistCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistPayload>
+          }
+          createMany: {
+            args: Prisma.ChecklistCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ChecklistCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistPayload>[]
+          }
+          delete: {
+            args: Prisma.ChecklistDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistPayload>
+          }
+          update: {
+            args: Prisma.ChecklistUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistPayload>
+          }
+          deleteMany: {
+            args: Prisma.ChecklistDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ChecklistUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ChecklistUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistPayload>[]
+          }
+          upsert: {
+            args: Prisma.ChecklistUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChecklistPayload>
+          }
+          aggregate: {
+            args: Prisma.ChecklistAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateChecklist>
+          }
+          groupBy: {
+            args: Prisma.ChecklistGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ChecklistGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ChecklistCountArgs<ExtArgs>
+            result: $Utils.Optional<ChecklistCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1241,6 +1331,7 @@ export namespace Prisma {
     chatSession?: ChatSessionOmit
     message?: MessageOmit
     verificationCode?: VerificationCodeOmit
+    checklist?: ChecklistOmit
   }
 
   /* Types for Logging */
@@ -1371,10 +1462,12 @@ export namespace Prisma {
 
   export type TripCountOutputType = {
     destinations: number
+    checklists: number
   }
 
   export type TripCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     destinations?: boolean | TripCountOutputTypeCountDestinationsArgs
+    checklists?: boolean | TripCountOutputTypeCountChecklistsArgs
   }
 
   // Custom InputTypes
@@ -1395,6 +1488,13 @@ export namespace Prisma {
     where?: DestinationWhereInput
   }
 
+  /**
+   * TripCountOutputType without action
+   */
+  export type TripCountOutputTypeCountChecklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChecklistWhereInput
+  }
+
 
   /**
    * Count Type ChatSessionCountOutputType
@@ -1402,10 +1502,12 @@ export namespace Prisma {
 
   export type ChatSessionCountOutputType = {
     messages: number
+    checklists: number
   }
 
   export type ChatSessionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | ChatSessionCountOutputTypeCountMessagesArgs
+    checklists?: boolean | ChatSessionCountOutputTypeCountChecklistsArgs
   }
 
   // Custom InputTypes
@@ -1424,6 +1526,13 @@ export namespace Prisma {
    */
   export type ChatSessionCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MessageWhereInput
+  }
+
+  /**
+   * ChatSessionCountOutputType without action
+   */
+  export type ChatSessionCountOutputTypeCountChecklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChecklistWhereInput
   }
 
 
@@ -2788,6 +2897,7 @@ export namespace Prisma {
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     destinations?: boolean | Trip$destinationsArgs<ExtArgs>
+    checklists?: boolean | Trip$checklistsArgs<ExtArgs>
     _count?: boolean | TripCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["trip"]>
 
@@ -2824,6 +2934,7 @@ export namespace Prisma {
   export type TripInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     destinations?: boolean | Trip$destinationsArgs<ExtArgs>
+    checklists?: boolean | Trip$checklistsArgs<ExtArgs>
     _count?: boolean | TripCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TripIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2838,6 +2949,7 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       destinations: Prisma.$DestinationPayload<ExtArgs>[]
+      checklists: Prisma.$ChecklistPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3242,6 +3354,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     destinations<T extends Trip$destinationsArgs<ExtArgs> = {}>(args?: Subset<T, Trip$destinationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DestinationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    checklists<T extends Trip$checklistsArgs<ExtArgs> = {}>(args?: Subset<T, Trip$checklistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChecklistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3699,6 +3812,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DestinationScalarFieldEnum | DestinationScalarFieldEnum[]
+  }
+
+  /**
+   * Trip.checklists
+   */
+  export type Trip$checklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Checklist
+     */
+    select?: ChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Checklist
+     */
+    omit?: ChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistInclude<ExtArgs> | null
+    where?: ChecklistWhereInput
+    orderBy?: ChecklistOrderByWithRelationInput | ChecklistOrderByWithRelationInput[]
+    cursor?: ChecklistWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChecklistScalarFieldEnum | ChecklistScalarFieldEnum[]
   }
 
   /**
@@ -4988,6 +5125,7 @@ export namespace Prisma {
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     messages?: boolean | ChatSession$messagesArgs<ExtArgs>
+    checklists?: boolean | ChatSession$checklistsArgs<ExtArgs>
     _count?: boolean | ChatSessionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatSession"]>
 
@@ -5018,6 +5156,7 @@ export namespace Prisma {
   export type ChatSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     messages?: boolean | ChatSession$messagesArgs<ExtArgs>
+    checklists?: boolean | ChatSession$checklistsArgs<ExtArgs>
     _count?: boolean | ChatSessionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ChatSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5032,6 +5171,7 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       messages: Prisma.$MessagePayload<ExtArgs>[]
+      checklists: Prisma.$ChecklistPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5434,6 +5574,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     messages<T extends ChatSession$messagesArgs<ExtArgs> = {}>(args?: Subset<T, ChatSession$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    checklists<T extends ChatSession$checklistsArgs<ExtArgs> = {}>(args?: Subset<T, ChatSession$checklistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChecklistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5889,6 +6030,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
+  }
+
+  /**
+   * ChatSession.checklists
+   */
+  export type ChatSession$checklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Checklist
+     */
+    select?: ChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Checklist
+     */
+    omit?: ChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistInclude<ExtArgs> | null
+    where?: ChecklistWhereInput
+    orderBy?: ChecklistOrderByWithRelationInput | ChecklistOrderByWithRelationInput[]
+    cursor?: ChecklistWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChecklistScalarFieldEnum | ChecklistScalarFieldEnum[]
   }
 
   /**
@@ -8050,6 +8215,1135 @@ export namespace Prisma {
 
 
   /**
+   * Model Checklist
+   */
+
+  export type AggregateChecklist = {
+    _count: ChecklistCountAggregateOutputType | null
+    _min: ChecklistMinAggregateOutputType | null
+    _max: ChecklistMaxAggregateOutputType | null
+  }
+
+  export type ChecklistMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    category: string | null
+    isCompleted: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    tripId: string | null
+    sessionId: string | null
+  }
+
+  export type ChecklistMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    category: string | null
+    isCompleted: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    tripId: string | null
+    sessionId: string | null
+  }
+
+  export type ChecklistCountAggregateOutputType = {
+    id: number
+    title: number
+    category: number
+    isCompleted: number
+    createdAt: number
+    updatedAt: number
+    tripId: number
+    sessionId: number
+    _all: number
+  }
+
+
+  export type ChecklistMinAggregateInputType = {
+    id?: true
+    title?: true
+    category?: true
+    isCompleted?: true
+    createdAt?: true
+    updatedAt?: true
+    tripId?: true
+    sessionId?: true
+  }
+
+  export type ChecklistMaxAggregateInputType = {
+    id?: true
+    title?: true
+    category?: true
+    isCompleted?: true
+    createdAt?: true
+    updatedAt?: true
+    tripId?: true
+    sessionId?: true
+  }
+
+  export type ChecklistCountAggregateInputType = {
+    id?: true
+    title?: true
+    category?: true
+    isCompleted?: true
+    createdAt?: true
+    updatedAt?: true
+    tripId?: true
+    sessionId?: true
+    _all?: true
+  }
+
+  export type ChecklistAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Checklist to aggregate.
+     */
+    where?: ChecklistWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Checklists to fetch.
+     */
+    orderBy?: ChecklistOrderByWithRelationInput | ChecklistOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ChecklistWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Checklists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Checklists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Checklists
+    **/
+    _count?: true | ChecklistCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ChecklistMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ChecklistMaxAggregateInputType
+  }
+
+  export type GetChecklistAggregateType<T extends ChecklistAggregateArgs> = {
+        [P in keyof T & keyof AggregateChecklist]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateChecklist[P]>
+      : GetScalarType<T[P], AggregateChecklist[P]>
+  }
+
+
+
+
+  export type ChecklistGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChecklistWhereInput
+    orderBy?: ChecklistOrderByWithAggregationInput | ChecklistOrderByWithAggregationInput[]
+    by: ChecklistScalarFieldEnum[] | ChecklistScalarFieldEnum
+    having?: ChecklistScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ChecklistCountAggregateInputType | true
+    _min?: ChecklistMinAggregateInputType
+    _max?: ChecklistMaxAggregateInputType
+  }
+
+  export type ChecklistGroupByOutputType = {
+    id: string
+    title: string
+    category: string
+    isCompleted: boolean
+    createdAt: Date
+    updatedAt: Date
+    tripId: string
+    sessionId: string | null
+    _count: ChecklistCountAggregateOutputType | null
+    _min: ChecklistMinAggregateOutputType | null
+    _max: ChecklistMaxAggregateOutputType | null
+  }
+
+  type GetChecklistGroupByPayload<T extends ChecklistGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ChecklistGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ChecklistGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ChecklistGroupByOutputType[P]>
+            : GetScalarType<T[P], ChecklistGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ChecklistSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    category?: boolean
+    isCompleted?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tripId?: boolean
+    sessionId?: boolean
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    session?: boolean | Checklist$sessionArgs<ExtArgs>
+  }, ExtArgs["result"]["checklist"]>
+
+  export type ChecklistSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    category?: boolean
+    isCompleted?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tripId?: boolean
+    sessionId?: boolean
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    session?: boolean | Checklist$sessionArgs<ExtArgs>
+  }, ExtArgs["result"]["checklist"]>
+
+  export type ChecklistSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    category?: boolean
+    isCompleted?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tripId?: boolean
+    sessionId?: boolean
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    session?: boolean | Checklist$sessionArgs<ExtArgs>
+  }, ExtArgs["result"]["checklist"]>
+
+  export type ChecklistSelectScalar = {
+    id?: boolean
+    title?: boolean
+    category?: boolean
+    isCompleted?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tripId?: boolean
+    sessionId?: boolean
+  }
+
+  export type ChecklistOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "category" | "isCompleted" | "createdAt" | "updatedAt" | "tripId" | "sessionId", ExtArgs["result"]["checklist"]>
+  export type ChecklistInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    session?: boolean | Checklist$sessionArgs<ExtArgs>
+  }
+  export type ChecklistIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    session?: boolean | Checklist$sessionArgs<ExtArgs>
+  }
+  export type ChecklistIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    session?: boolean | Checklist$sessionArgs<ExtArgs>
+  }
+
+  export type $ChecklistPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Checklist"
+    objects: {
+      trip: Prisma.$TripPayload<ExtArgs>
+      session: Prisma.$ChatSessionPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      category: string
+      isCompleted: boolean
+      createdAt: Date
+      updatedAt: Date
+      tripId: string
+      sessionId: string | null
+    }, ExtArgs["result"]["checklist"]>
+    composites: {}
+  }
+
+  type ChecklistGetPayload<S extends boolean | null | undefined | ChecklistDefaultArgs> = $Result.GetResult<Prisma.$ChecklistPayload, S>
+
+  type ChecklistCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ChecklistFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ChecklistCountAggregateInputType | true
+    }
+
+  export interface ChecklistDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Checklist'], meta: { name: 'Checklist' } }
+    /**
+     * Find zero or one Checklist that matches the filter.
+     * @param {ChecklistFindUniqueArgs} args - Arguments to find a Checklist
+     * @example
+     * // Get one Checklist
+     * const checklist = await prisma.checklist.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ChecklistFindUniqueArgs>(args: SelectSubset<T, ChecklistFindUniqueArgs<ExtArgs>>): Prisma__ChecklistClient<$Result.GetResult<Prisma.$ChecklistPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Checklist that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ChecklistFindUniqueOrThrowArgs} args - Arguments to find a Checklist
+     * @example
+     * // Get one Checklist
+     * const checklist = await prisma.checklist.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ChecklistFindUniqueOrThrowArgs>(args: SelectSubset<T, ChecklistFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ChecklistClient<$Result.GetResult<Prisma.$ChecklistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Checklist that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChecklistFindFirstArgs} args - Arguments to find a Checklist
+     * @example
+     * // Get one Checklist
+     * const checklist = await prisma.checklist.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ChecklistFindFirstArgs>(args?: SelectSubset<T, ChecklistFindFirstArgs<ExtArgs>>): Prisma__ChecklistClient<$Result.GetResult<Prisma.$ChecklistPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Checklist that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChecklistFindFirstOrThrowArgs} args - Arguments to find a Checklist
+     * @example
+     * // Get one Checklist
+     * const checklist = await prisma.checklist.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ChecklistFindFirstOrThrowArgs>(args?: SelectSubset<T, ChecklistFindFirstOrThrowArgs<ExtArgs>>): Prisma__ChecklistClient<$Result.GetResult<Prisma.$ChecklistPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Checklists that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChecklistFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Checklists
+     * const checklists = await prisma.checklist.findMany()
+     * 
+     * // Get first 10 Checklists
+     * const checklists = await prisma.checklist.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const checklistWithIdOnly = await prisma.checklist.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ChecklistFindManyArgs>(args?: SelectSubset<T, ChecklistFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChecklistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Checklist.
+     * @param {ChecklistCreateArgs} args - Arguments to create a Checklist.
+     * @example
+     * // Create one Checklist
+     * const Checklist = await prisma.checklist.create({
+     *   data: {
+     *     // ... data to create a Checklist
+     *   }
+     * })
+     * 
+     */
+    create<T extends ChecklistCreateArgs>(args: SelectSubset<T, ChecklistCreateArgs<ExtArgs>>): Prisma__ChecklistClient<$Result.GetResult<Prisma.$ChecklistPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Checklists.
+     * @param {ChecklistCreateManyArgs} args - Arguments to create many Checklists.
+     * @example
+     * // Create many Checklists
+     * const checklist = await prisma.checklist.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ChecklistCreateManyArgs>(args?: SelectSubset<T, ChecklistCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Checklists and returns the data saved in the database.
+     * @param {ChecklistCreateManyAndReturnArgs} args - Arguments to create many Checklists.
+     * @example
+     * // Create many Checklists
+     * const checklist = await prisma.checklist.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Checklists and only return the `id`
+     * const checklistWithIdOnly = await prisma.checklist.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ChecklistCreateManyAndReturnArgs>(args?: SelectSubset<T, ChecklistCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChecklistPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Checklist.
+     * @param {ChecklistDeleteArgs} args - Arguments to delete one Checklist.
+     * @example
+     * // Delete one Checklist
+     * const Checklist = await prisma.checklist.delete({
+     *   where: {
+     *     // ... filter to delete one Checklist
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ChecklistDeleteArgs>(args: SelectSubset<T, ChecklistDeleteArgs<ExtArgs>>): Prisma__ChecklistClient<$Result.GetResult<Prisma.$ChecklistPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Checklist.
+     * @param {ChecklistUpdateArgs} args - Arguments to update one Checklist.
+     * @example
+     * // Update one Checklist
+     * const checklist = await prisma.checklist.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ChecklistUpdateArgs>(args: SelectSubset<T, ChecklistUpdateArgs<ExtArgs>>): Prisma__ChecklistClient<$Result.GetResult<Prisma.$ChecklistPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Checklists.
+     * @param {ChecklistDeleteManyArgs} args - Arguments to filter Checklists to delete.
+     * @example
+     * // Delete a few Checklists
+     * const { count } = await prisma.checklist.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ChecklistDeleteManyArgs>(args?: SelectSubset<T, ChecklistDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Checklists.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChecklistUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Checklists
+     * const checklist = await prisma.checklist.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ChecklistUpdateManyArgs>(args: SelectSubset<T, ChecklistUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Checklists and returns the data updated in the database.
+     * @param {ChecklistUpdateManyAndReturnArgs} args - Arguments to update many Checklists.
+     * @example
+     * // Update many Checklists
+     * const checklist = await prisma.checklist.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Checklists and only return the `id`
+     * const checklistWithIdOnly = await prisma.checklist.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ChecklistUpdateManyAndReturnArgs>(args: SelectSubset<T, ChecklistUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChecklistPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Checklist.
+     * @param {ChecklistUpsertArgs} args - Arguments to update or create a Checklist.
+     * @example
+     * // Update or create a Checklist
+     * const checklist = await prisma.checklist.upsert({
+     *   create: {
+     *     // ... data to create a Checklist
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Checklist we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ChecklistUpsertArgs>(args: SelectSubset<T, ChecklistUpsertArgs<ExtArgs>>): Prisma__ChecklistClient<$Result.GetResult<Prisma.$ChecklistPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Checklists.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChecklistCountArgs} args - Arguments to filter Checklists to count.
+     * @example
+     * // Count the number of Checklists
+     * const count = await prisma.checklist.count({
+     *   where: {
+     *     // ... the filter for the Checklists we want to count
+     *   }
+     * })
+    **/
+    count<T extends ChecklistCountArgs>(
+      args?: Subset<T, ChecklistCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ChecklistCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Checklist.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChecklistAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ChecklistAggregateArgs>(args: Subset<T, ChecklistAggregateArgs>): Prisma.PrismaPromise<GetChecklistAggregateType<T>>
+
+    /**
+     * Group by Checklist.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChecklistGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ChecklistGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ChecklistGroupByArgs['orderBy'] }
+        : { orderBy?: ChecklistGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ChecklistGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChecklistGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Checklist model
+   */
+  readonly fields: ChecklistFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Checklist.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ChecklistClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    trip<T extends TripDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TripDefaultArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    session<T extends Checklist$sessionArgs<ExtArgs> = {}>(args?: Subset<T, Checklist$sessionArgs<ExtArgs>>): Prisma__ChatSessionClient<$Result.GetResult<Prisma.$ChatSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Checklist model
+   */
+  interface ChecklistFieldRefs {
+    readonly id: FieldRef<"Checklist", 'String'>
+    readonly title: FieldRef<"Checklist", 'String'>
+    readonly category: FieldRef<"Checklist", 'String'>
+    readonly isCompleted: FieldRef<"Checklist", 'Boolean'>
+    readonly createdAt: FieldRef<"Checklist", 'DateTime'>
+    readonly updatedAt: FieldRef<"Checklist", 'DateTime'>
+    readonly tripId: FieldRef<"Checklist", 'String'>
+    readonly sessionId: FieldRef<"Checklist", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Checklist findUnique
+   */
+  export type ChecklistFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Checklist
+     */
+    select?: ChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Checklist
+     */
+    omit?: ChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistInclude<ExtArgs> | null
+    /**
+     * Filter, which Checklist to fetch.
+     */
+    where: ChecklistWhereUniqueInput
+  }
+
+  /**
+   * Checklist findUniqueOrThrow
+   */
+  export type ChecklistFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Checklist
+     */
+    select?: ChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Checklist
+     */
+    omit?: ChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistInclude<ExtArgs> | null
+    /**
+     * Filter, which Checklist to fetch.
+     */
+    where: ChecklistWhereUniqueInput
+  }
+
+  /**
+   * Checklist findFirst
+   */
+  export type ChecklistFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Checklist
+     */
+    select?: ChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Checklist
+     */
+    omit?: ChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistInclude<ExtArgs> | null
+    /**
+     * Filter, which Checklist to fetch.
+     */
+    where?: ChecklistWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Checklists to fetch.
+     */
+    orderBy?: ChecklistOrderByWithRelationInput | ChecklistOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Checklists.
+     */
+    cursor?: ChecklistWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Checklists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Checklists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Checklists.
+     */
+    distinct?: ChecklistScalarFieldEnum | ChecklistScalarFieldEnum[]
+  }
+
+  /**
+   * Checklist findFirstOrThrow
+   */
+  export type ChecklistFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Checklist
+     */
+    select?: ChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Checklist
+     */
+    omit?: ChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistInclude<ExtArgs> | null
+    /**
+     * Filter, which Checklist to fetch.
+     */
+    where?: ChecklistWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Checklists to fetch.
+     */
+    orderBy?: ChecklistOrderByWithRelationInput | ChecklistOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Checklists.
+     */
+    cursor?: ChecklistWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Checklists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Checklists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Checklists.
+     */
+    distinct?: ChecklistScalarFieldEnum | ChecklistScalarFieldEnum[]
+  }
+
+  /**
+   * Checklist findMany
+   */
+  export type ChecklistFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Checklist
+     */
+    select?: ChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Checklist
+     */
+    omit?: ChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistInclude<ExtArgs> | null
+    /**
+     * Filter, which Checklists to fetch.
+     */
+    where?: ChecklistWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Checklists to fetch.
+     */
+    orderBy?: ChecklistOrderByWithRelationInput | ChecklistOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Checklists.
+     */
+    cursor?: ChecklistWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Checklists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Checklists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Checklists.
+     */
+    distinct?: ChecklistScalarFieldEnum | ChecklistScalarFieldEnum[]
+  }
+
+  /**
+   * Checklist create
+   */
+  export type ChecklistCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Checklist
+     */
+    select?: ChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Checklist
+     */
+    omit?: ChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Checklist.
+     */
+    data: XOR<ChecklistCreateInput, ChecklistUncheckedCreateInput>
+  }
+
+  /**
+   * Checklist createMany
+   */
+  export type ChecklistCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Checklists.
+     */
+    data: ChecklistCreateManyInput | ChecklistCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Checklist createManyAndReturn
+   */
+  export type ChecklistCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Checklist
+     */
+    select?: ChecklistSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Checklist
+     */
+    omit?: ChecklistOmit<ExtArgs> | null
+    /**
+     * The data used to create many Checklists.
+     */
+    data: ChecklistCreateManyInput | ChecklistCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Checklist update
+   */
+  export type ChecklistUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Checklist
+     */
+    select?: ChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Checklist
+     */
+    omit?: ChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Checklist.
+     */
+    data: XOR<ChecklistUpdateInput, ChecklistUncheckedUpdateInput>
+    /**
+     * Choose, which Checklist to update.
+     */
+    where: ChecklistWhereUniqueInput
+  }
+
+  /**
+   * Checklist updateMany
+   */
+  export type ChecklistUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Checklists.
+     */
+    data: XOR<ChecklistUpdateManyMutationInput, ChecklistUncheckedUpdateManyInput>
+    /**
+     * Filter which Checklists to update
+     */
+    where?: ChecklistWhereInput
+    /**
+     * Limit how many Checklists to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Checklist updateManyAndReturn
+   */
+  export type ChecklistUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Checklist
+     */
+    select?: ChecklistSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Checklist
+     */
+    omit?: ChecklistOmit<ExtArgs> | null
+    /**
+     * The data used to update Checklists.
+     */
+    data: XOR<ChecklistUpdateManyMutationInput, ChecklistUncheckedUpdateManyInput>
+    /**
+     * Filter which Checklists to update
+     */
+    where?: ChecklistWhereInput
+    /**
+     * Limit how many Checklists to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Checklist upsert
+   */
+  export type ChecklistUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Checklist
+     */
+    select?: ChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Checklist
+     */
+    omit?: ChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Checklist to update in case it exists.
+     */
+    where: ChecklistWhereUniqueInput
+    /**
+     * In case the Checklist found by the `where` argument doesn't exist, create a new Checklist with this data.
+     */
+    create: XOR<ChecklistCreateInput, ChecklistUncheckedCreateInput>
+    /**
+     * In case the Checklist was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ChecklistUpdateInput, ChecklistUncheckedUpdateInput>
+  }
+
+  /**
+   * Checklist delete
+   */
+  export type ChecklistDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Checklist
+     */
+    select?: ChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Checklist
+     */
+    omit?: ChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistInclude<ExtArgs> | null
+    /**
+     * Filter which Checklist to delete.
+     */
+    where: ChecklistWhereUniqueInput
+  }
+
+  /**
+   * Checklist deleteMany
+   */
+  export type ChecklistDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Checklists to delete
+     */
+    where?: ChecklistWhereInput
+    /**
+     * Limit how many Checklists to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Checklist.session
+   */
+  export type Checklist$sessionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatSession
+     */
+    select?: ChatSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatSession
+     */
+    omit?: ChatSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatSessionInclude<ExtArgs> | null
+    where?: ChatSessionWhereInput
+  }
+
+  /**
+   * Checklist without action
+   */
+  export type ChecklistDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Checklist
+     */
+    select?: ChecklistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Checklist
+     */
+    omit?: ChecklistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChecklistInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -8135,6 +9429,20 @@ export namespace Prisma {
   export type VerificationCodeScalarFieldEnum = (typeof VerificationCodeScalarFieldEnum)[keyof typeof VerificationCodeScalarFieldEnum]
 
 
+  export const ChecklistScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    category: 'category',
+    isCompleted: 'isCompleted',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    tripId: 'tripId',
+    sessionId: 'sessionId'
+  };
+
+  export type ChecklistScalarFieldEnum = (typeof ChecklistScalarFieldEnum)[keyof typeof ChecklistScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -8203,6 +9511,13 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -8316,6 +9631,7 @@ export namespace Prisma {
     userId?: StringFilter<"Trip"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     destinations?: DestinationListRelationFilter
+    checklists?: ChecklistListRelationFilter
   }
 
   export type TripOrderByWithRelationInput = {
@@ -8327,6 +9643,7 @@ export namespace Prisma {
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
     destinations?: DestinationOrderByRelationAggregateInput
+    checklists?: ChecklistOrderByRelationAggregateInput
   }
 
   export type TripWhereUniqueInput = Prisma.AtLeast<{
@@ -8341,6 +9658,7 @@ export namespace Prisma {
     userId?: StringFilter<"Trip"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     destinations?: DestinationListRelationFilter
+    checklists?: ChecklistListRelationFilter
   }, "id">
 
   export type TripOrderByWithAggregationInput = {
@@ -8439,6 +9757,7 @@ export namespace Prisma {
     userId?: StringFilter<"ChatSession"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     messages?: MessageListRelationFilter
+    checklists?: ChecklistListRelationFilter
   }
 
   export type ChatSessionOrderByWithRelationInput = {
@@ -8448,6 +9767,7 @@ export namespace Prisma {
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
     messages?: MessageOrderByRelationAggregateInput
+    checklists?: ChecklistOrderByRelationAggregateInput
   }
 
   export type ChatSessionWhereUniqueInput = Prisma.AtLeast<{
@@ -8460,6 +9780,7 @@ export namespace Prisma {
     userId?: StringFilter<"ChatSession"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     messages?: MessageListRelationFilter
+    checklists?: ChecklistListRelationFilter
   }, "id">
 
   export type ChatSessionOrderByWithAggregationInput = {
@@ -8597,6 +9918,79 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"VerificationCode"> | string
   }
 
+  export type ChecklistWhereInput = {
+    AND?: ChecklistWhereInput | ChecklistWhereInput[]
+    OR?: ChecklistWhereInput[]
+    NOT?: ChecklistWhereInput | ChecklistWhereInput[]
+    id?: StringFilter<"Checklist"> | string
+    title?: StringFilter<"Checklist"> | string
+    category?: StringFilter<"Checklist"> | string
+    isCompleted?: BoolFilter<"Checklist"> | boolean
+    createdAt?: DateTimeFilter<"Checklist"> | Date | string
+    updatedAt?: DateTimeFilter<"Checklist"> | Date | string
+    tripId?: StringFilter<"Checklist"> | string
+    sessionId?: StringNullableFilter<"Checklist"> | string | null
+    trip?: XOR<TripScalarRelationFilter, TripWhereInput>
+    session?: XOR<ChatSessionNullableScalarRelationFilter, ChatSessionWhereInput> | null
+  }
+
+  export type ChecklistOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    category?: SortOrder
+    isCompleted?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tripId?: SortOrder
+    sessionId?: SortOrderInput | SortOrder
+    trip?: TripOrderByWithRelationInput
+    session?: ChatSessionOrderByWithRelationInput
+  }
+
+  export type ChecklistWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ChecklistWhereInput | ChecklistWhereInput[]
+    OR?: ChecklistWhereInput[]
+    NOT?: ChecklistWhereInput | ChecklistWhereInput[]
+    title?: StringFilter<"Checklist"> | string
+    category?: StringFilter<"Checklist"> | string
+    isCompleted?: BoolFilter<"Checklist"> | boolean
+    createdAt?: DateTimeFilter<"Checklist"> | Date | string
+    updatedAt?: DateTimeFilter<"Checklist"> | Date | string
+    tripId?: StringFilter<"Checklist"> | string
+    sessionId?: StringNullableFilter<"Checklist"> | string | null
+    trip?: XOR<TripScalarRelationFilter, TripWhereInput>
+    session?: XOR<ChatSessionNullableScalarRelationFilter, ChatSessionWhereInput> | null
+  }, "id">
+
+  export type ChecklistOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    category?: SortOrder
+    isCompleted?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tripId?: SortOrder
+    sessionId?: SortOrderInput | SortOrder
+    _count?: ChecklistCountOrderByAggregateInput
+    _max?: ChecklistMaxOrderByAggregateInput
+    _min?: ChecklistMinOrderByAggregateInput
+  }
+
+  export type ChecklistScalarWhereWithAggregatesInput = {
+    AND?: ChecklistScalarWhereWithAggregatesInput | ChecklistScalarWhereWithAggregatesInput[]
+    OR?: ChecklistScalarWhereWithAggregatesInput[]
+    NOT?: ChecklistScalarWhereWithAggregatesInput | ChecklistScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Checklist"> | string
+    title?: StringWithAggregatesFilter<"Checklist"> | string
+    category?: StringWithAggregatesFilter<"Checklist"> | string
+    isCompleted?: BoolWithAggregatesFilter<"Checklist"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Checklist"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Checklist"> | Date | string
+    tripId?: StringWithAggregatesFilter<"Checklist"> | string
+    sessionId?: StringNullableWithAggregatesFilter<"Checklist"> | string | null
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -8701,6 +10095,7 @@ export namespace Prisma {
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutTripsInput
     destinations?: DestinationCreateNestedManyWithoutTripInput
+    checklists?: ChecklistCreateNestedManyWithoutTripInput
   }
 
   export type TripUncheckedCreateInput = {
@@ -8711,6 +10106,7 @@ export namespace Prisma {
     createdAt?: Date | string
     userId: string
     destinations?: DestinationUncheckedCreateNestedManyWithoutTripInput
+    checklists?: ChecklistUncheckedCreateNestedManyWithoutTripInput
   }
 
   export type TripUpdateInput = {
@@ -8721,6 +10117,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTripsNestedInput
     destinations?: DestinationUpdateManyWithoutTripNestedInput
+    checklists?: ChecklistUpdateManyWithoutTripNestedInput
   }
 
   export type TripUncheckedUpdateInput = {
@@ -8731,6 +10128,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     destinations?: DestinationUncheckedUpdateManyWithoutTripNestedInput
+    checklists?: ChecklistUncheckedUpdateManyWithoutTripNestedInput
   }
 
   export type TripCreateManyInput = {
@@ -8827,6 +10225,7 @@ export namespace Prisma {
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutChatSessionsInput
     messages?: MessageCreateNestedManyWithoutSessionInput
+    checklists?: ChecklistCreateNestedManyWithoutSessionInput
   }
 
   export type ChatSessionUncheckedCreateInput = {
@@ -8835,6 +10234,7 @@ export namespace Prisma {
     createdAt?: Date | string
     userId: string
     messages?: MessageUncheckedCreateNestedManyWithoutSessionInput
+    checklists?: ChecklistUncheckedCreateNestedManyWithoutSessionInput
   }
 
   export type ChatSessionUpdateInput = {
@@ -8843,6 +10243,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutChatSessionsNestedInput
     messages?: MessageUpdateManyWithoutSessionNestedInput
+    checklists?: ChecklistUpdateManyWithoutSessionNestedInput
   }
 
   export type ChatSessionUncheckedUpdateInput = {
@@ -8851,6 +10252,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     messages?: MessageUncheckedUpdateManyWithoutSessionNestedInput
+    checklists?: ChecklistUncheckedUpdateManyWithoutSessionNestedInput
   }
 
   export type ChatSessionCreateManyInput = {
@@ -8988,6 +10390,81 @@ export namespace Prisma {
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ChecklistCreateInput = {
+    id?: string
+    title: string
+    category?: string
+    isCompleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    trip: TripCreateNestedOneWithoutChecklistsInput
+    session?: ChatSessionCreateNestedOneWithoutChecklistsInput
+  }
+
+  export type ChecklistUncheckedCreateInput = {
+    id?: string
+    title: string
+    category?: string
+    isCompleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId: string
+    sessionId?: string | null
+  }
+
+  export type ChecklistUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trip?: TripUpdateOneRequiredWithoutChecklistsNestedInput
+    session?: ChatSessionUpdateOneWithoutChecklistsNestedInput
+  }
+
+  export type ChecklistUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ChecklistCreateManyInput = {
+    id?: string
+    title: string
+    category?: string
+    isCompleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId: string
+    sessionId?: string | null
+  }
+
+  export type ChecklistUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChecklistUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -9174,7 +10651,17 @@ export namespace Prisma {
     none?: DestinationWhereInput
   }
 
+  export type ChecklistListRelationFilter = {
+    every?: ChecklistWhereInput
+    some?: ChecklistWhereInput
+    none?: ChecklistWhereInput
+  }
+
   export type DestinationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ChecklistOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -9373,6 +10860,57 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type ChatSessionNullableScalarRelationFilter = {
+    is?: ChatSessionWhereInput | null
+    isNot?: ChatSessionWhereInput | null
+  }
+
+  export type ChecklistCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    category?: SortOrder
+    isCompleted?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tripId?: SortOrder
+    sessionId?: SortOrder
+  }
+
+  export type ChecklistMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    category?: SortOrder
+    isCompleted?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tripId?: SortOrder
+    sessionId?: SortOrder
+  }
+
+  export type ChecklistMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    category?: SortOrder
+    isCompleted?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tripId?: SortOrder
+    sessionId?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type TripCreateNestedManyWithoutUserInput = {
     create?: XOR<TripCreateWithoutUserInput, TripUncheckedCreateWithoutUserInput> | TripCreateWithoutUserInput[] | TripUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TripCreateOrConnectWithoutUserInput | TripCreateOrConnectWithoutUserInput[]
@@ -9524,11 +11062,25 @@ export namespace Prisma {
     connect?: DestinationWhereUniqueInput | DestinationWhereUniqueInput[]
   }
 
+  export type ChecklistCreateNestedManyWithoutTripInput = {
+    create?: XOR<ChecklistCreateWithoutTripInput, ChecklistUncheckedCreateWithoutTripInput> | ChecklistCreateWithoutTripInput[] | ChecklistUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: ChecklistCreateOrConnectWithoutTripInput | ChecklistCreateOrConnectWithoutTripInput[]
+    createMany?: ChecklistCreateManyTripInputEnvelope
+    connect?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+  }
+
   export type DestinationUncheckedCreateNestedManyWithoutTripInput = {
     create?: XOR<DestinationCreateWithoutTripInput, DestinationUncheckedCreateWithoutTripInput> | DestinationCreateWithoutTripInput[] | DestinationUncheckedCreateWithoutTripInput[]
     connectOrCreate?: DestinationCreateOrConnectWithoutTripInput | DestinationCreateOrConnectWithoutTripInput[]
     createMany?: DestinationCreateManyTripInputEnvelope
     connect?: DestinationWhereUniqueInput | DestinationWhereUniqueInput[]
+  }
+
+  export type ChecklistUncheckedCreateNestedManyWithoutTripInput = {
+    create?: XOR<ChecklistCreateWithoutTripInput, ChecklistUncheckedCreateWithoutTripInput> | ChecklistCreateWithoutTripInput[] | ChecklistUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: ChecklistCreateOrConnectWithoutTripInput | ChecklistCreateOrConnectWithoutTripInput[]
+    createMany?: ChecklistCreateManyTripInputEnvelope
+    connect?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -9557,6 +11109,20 @@ export namespace Prisma {
     deleteMany?: DestinationScalarWhereInput | DestinationScalarWhereInput[]
   }
 
+  export type ChecklistUpdateManyWithoutTripNestedInput = {
+    create?: XOR<ChecklistCreateWithoutTripInput, ChecklistUncheckedCreateWithoutTripInput> | ChecklistCreateWithoutTripInput[] | ChecklistUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: ChecklistCreateOrConnectWithoutTripInput | ChecklistCreateOrConnectWithoutTripInput[]
+    upsert?: ChecklistUpsertWithWhereUniqueWithoutTripInput | ChecklistUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: ChecklistCreateManyTripInputEnvelope
+    set?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+    disconnect?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+    delete?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+    connect?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+    update?: ChecklistUpdateWithWhereUniqueWithoutTripInput | ChecklistUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: ChecklistUpdateManyWithWhereWithoutTripInput | ChecklistUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: ChecklistScalarWhereInput | ChecklistScalarWhereInput[]
+  }
+
   export type DestinationUncheckedUpdateManyWithoutTripNestedInput = {
     create?: XOR<DestinationCreateWithoutTripInput, DestinationUncheckedCreateWithoutTripInput> | DestinationCreateWithoutTripInput[] | DestinationUncheckedCreateWithoutTripInput[]
     connectOrCreate?: DestinationCreateOrConnectWithoutTripInput | DestinationCreateOrConnectWithoutTripInput[]
@@ -9569,6 +11135,20 @@ export namespace Prisma {
     update?: DestinationUpdateWithWhereUniqueWithoutTripInput | DestinationUpdateWithWhereUniqueWithoutTripInput[]
     updateMany?: DestinationUpdateManyWithWhereWithoutTripInput | DestinationUpdateManyWithWhereWithoutTripInput[]
     deleteMany?: DestinationScalarWhereInput | DestinationScalarWhereInput[]
+  }
+
+  export type ChecklistUncheckedUpdateManyWithoutTripNestedInput = {
+    create?: XOR<ChecklistCreateWithoutTripInput, ChecklistUncheckedCreateWithoutTripInput> | ChecklistCreateWithoutTripInput[] | ChecklistUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: ChecklistCreateOrConnectWithoutTripInput | ChecklistCreateOrConnectWithoutTripInput[]
+    upsert?: ChecklistUpsertWithWhereUniqueWithoutTripInput | ChecklistUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: ChecklistCreateManyTripInputEnvelope
+    set?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+    disconnect?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+    delete?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+    connect?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+    update?: ChecklistUpdateWithWhereUniqueWithoutTripInput | ChecklistUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: ChecklistUpdateManyWithWhereWithoutTripInput | ChecklistUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: ChecklistScalarWhereInput | ChecklistScalarWhereInput[]
   }
 
   export type TripCreateNestedOneWithoutDestinationsInput = {
@@ -9606,11 +11186,25 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
+  export type ChecklistCreateNestedManyWithoutSessionInput = {
+    create?: XOR<ChecklistCreateWithoutSessionInput, ChecklistUncheckedCreateWithoutSessionInput> | ChecklistCreateWithoutSessionInput[] | ChecklistUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: ChecklistCreateOrConnectWithoutSessionInput | ChecklistCreateOrConnectWithoutSessionInput[]
+    createMany?: ChecklistCreateManySessionInputEnvelope
+    connect?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+  }
+
   export type MessageUncheckedCreateNestedManyWithoutSessionInput = {
     create?: XOR<MessageCreateWithoutSessionInput, MessageUncheckedCreateWithoutSessionInput> | MessageCreateWithoutSessionInput[] | MessageUncheckedCreateWithoutSessionInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutSessionInput | MessageCreateOrConnectWithoutSessionInput[]
     createMany?: MessageCreateManySessionInputEnvelope
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type ChecklistUncheckedCreateNestedManyWithoutSessionInput = {
+    create?: XOR<ChecklistCreateWithoutSessionInput, ChecklistUncheckedCreateWithoutSessionInput> | ChecklistCreateWithoutSessionInput[] | ChecklistUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: ChecklistCreateOrConnectWithoutSessionInput | ChecklistCreateOrConnectWithoutSessionInput[]
+    createMany?: ChecklistCreateManySessionInputEnvelope
+    connect?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutChatSessionsNestedInput = {
@@ -9635,6 +11229,20 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type ChecklistUpdateManyWithoutSessionNestedInput = {
+    create?: XOR<ChecklistCreateWithoutSessionInput, ChecklistUncheckedCreateWithoutSessionInput> | ChecklistCreateWithoutSessionInput[] | ChecklistUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: ChecklistCreateOrConnectWithoutSessionInput | ChecklistCreateOrConnectWithoutSessionInput[]
+    upsert?: ChecklistUpsertWithWhereUniqueWithoutSessionInput | ChecklistUpsertWithWhereUniqueWithoutSessionInput[]
+    createMany?: ChecklistCreateManySessionInputEnvelope
+    set?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+    disconnect?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+    delete?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+    connect?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+    update?: ChecklistUpdateWithWhereUniqueWithoutSessionInput | ChecklistUpdateWithWhereUniqueWithoutSessionInput[]
+    updateMany?: ChecklistUpdateManyWithWhereWithoutSessionInput | ChecklistUpdateManyWithWhereWithoutSessionInput[]
+    deleteMany?: ChecklistScalarWhereInput | ChecklistScalarWhereInput[]
+  }
+
   export type MessageUncheckedUpdateManyWithoutSessionNestedInput = {
     create?: XOR<MessageCreateWithoutSessionInput, MessageUncheckedCreateWithoutSessionInput> | MessageCreateWithoutSessionInput[] | MessageUncheckedCreateWithoutSessionInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutSessionInput | MessageCreateOrConnectWithoutSessionInput[]
@@ -9647,6 +11255,20 @@ export namespace Prisma {
     update?: MessageUpdateWithWhereUniqueWithoutSessionInput | MessageUpdateWithWhereUniqueWithoutSessionInput[]
     updateMany?: MessageUpdateManyWithWhereWithoutSessionInput | MessageUpdateManyWithWhereWithoutSessionInput[]
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type ChecklistUncheckedUpdateManyWithoutSessionNestedInput = {
+    create?: XOR<ChecklistCreateWithoutSessionInput, ChecklistUncheckedCreateWithoutSessionInput> | ChecklistCreateWithoutSessionInput[] | ChecklistUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: ChecklistCreateOrConnectWithoutSessionInput | ChecklistCreateOrConnectWithoutSessionInput[]
+    upsert?: ChecklistUpsertWithWhereUniqueWithoutSessionInput | ChecklistUpsertWithWhereUniqueWithoutSessionInput[]
+    createMany?: ChecklistCreateManySessionInputEnvelope
+    set?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+    disconnect?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+    delete?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+    connect?: ChecklistWhereUniqueInput | ChecklistWhereUniqueInput[]
+    update?: ChecklistUpdateWithWhereUniqueWithoutSessionInput | ChecklistUpdateWithWhereUniqueWithoutSessionInput[]
+    updateMany?: ChecklistUpdateManyWithWhereWithoutSessionInput | ChecklistUpdateManyWithWhereWithoutSessionInput[]
+    deleteMany?: ChecklistScalarWhereInput | ChecklistScalarWhereInput[]
   }
 
   export type ChatSessionCreateNestedOneWithoutMessagesInput = {
@@ -9675,6 +11297,40 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutVerificationCodesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVerificationCodesInput, UserUpdateWithoutVerificationCodesInput>, UserUncheckedUpdateWithoutVerificationCodesInput>
+  }
+
+  export type TripCreateNestedOneWithoutChecklistsInput = {
+    create?: XOR<TripCreateWithoutChecklistsInput, TripUncheckedCreateWithoutChecklistsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutChecklistsInput
+    connect?: TripWhereUniqueInput
+  }
+
+  export type ChatSessionCreateNestedOneWithoutChecklistsInput = {
+    create?: XOR<ChatSessionCreateWithoutChecklistsInput, ChatSessionUncheckedCreateWithoutChecklistsInput>
+    connectOrCreate?: ChatSessionCreateOrConnectWithoutChecklistsInput
+    connect?: ChatSessionWhereUniqueInput
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type TripUpdateOneRequiredWithoutChecklistsNestedInput = {
+    create?: XOR<TripCreateWithoutChecklistsInput, TripUncheckedCreateWithoutChecklistsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutChecklistsInput
+    upsert?: TripUpsertWithoutChecklistsInput
+    connect?: TripWhereUniqueInput
+    update?: XOR<XOR<TripUpdateToOneWithWhereWithoutChecklistsInput, TripUpdateWithoutChecklistsInput>, TripUncheckedUpdateWithoutChecklistsInput>
+  }
+
+  export type ChatSessionUpdateOneWithoutChecklistsNestedInput = {
+    create?: XOR<ChatSessionCreateWithoutChecklistsInput, ChatSessionUncheckedCreateWithoutChecklistsInput>
+    connectOrCreate?: ChatSessionCreateOrConnectWithoutChecklistsInput
+    upsert?: ChatSessionUpsertWithoutChecklistsInput
+    disconnect?: ChatSessionWhereInput | boolean
+    delete?: ChatSessionWhereInput | boolean
+    connect?: ChatSessionWhereUniqueInput
+    update?: XOR<XOR<ChatSessionUpdateToOneWithWhereWithoutChecklistsInput, ChatSessionUpdateWithoutChecklistsInput>, ChatSessionUncheckedUpdateWithoutChecklistsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -9838,6 +11494,19 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type TripCreateWithoutUserInput = {
     id?: string
     title: string
@@ -9845,6 +11514,7 @@ export namespace Prisma {
     endDate?: Date | string | null
     createdAt?: Date | string
     destinations?: DestinationCreateNestedManyWithoutTripInput
+    checklists?: ChecklistCreateNestedManyWithoutTripInput
   }
 
   export type TripUncheckedCreateWithoutUserInput = {
@@ -9854,6 +11524,7 @@ export namespace Prisma {
     endDate?: Date | string | null
     createdAt?: Date | string
     destinations?: DestinationUncheckedCreateNestedManyWithoutTripInput
+    checklists?: ChecklistUncheckedCreateNestedManyWithoutTripInput
   }
 
   export type TripCreateOrConnectWithoutUserInput = {
@@ -9871,6 +11542,7 @@ export namespace Prisma {
     title?: string
     createdAt?: Date | string
     messages?: MessageCreateNestedManyWithoutSessionInput
+    checklists?: ChecklistCreateNestedManyWithoutSessionInput
   }
 
   export type ChatSessionUncheckedCreateWithoutUserInput = {
@@ -9878,6 +11550,7 @@ export namespace Prisma {
     title?: string
     createdAt?: Date | string
     messages?: MessageUncheckedCreateNestedManyWithoutSessionInput
+    checklists?: ChecklistUncheckedCreateNestedManyWithoutSessionInput
   }
 
   export type ChatSessionCreateOrConnectWithoutUserInput = {
@@ -10057,6 +11730,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ChecklistCreateWithoutTripInput = {
+    id?: string
+    title: string
+    category?: string
+    isCompleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    session?: ChatSessionCreateNestedOneWithoutChecklistsInput
+  }
+
+  export type ChecklistUncheckedCreateWithoutTripInput = {
+    id?: string
+    title: string
+    category?: string
+    isCompleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessionId?: string | null
+  }
+
+  export type ChecklistCreateOrConnectWithoutTripInput = {
+    where: ChecklistWhereUniqueInput
+    create: XOR<ChecklistCreateWithoutTripInput, ChecklistUncheckedCreateWithoutTripInput>
+  }
+
+  export type ChecklistCreateManyTripInputEnvelope = {
+    data: ChecklistCreateManyTripInput | ChecklistCreateManyTripInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutTripsInput = {
     update: XOR<UserUpdateWithoutTripsInput, UserUncheckedUpdateWithoutTripsInput>
     create: XOR<UserCreateWithoutTripsInput, UserUncheckedCreateWithoutTripsInput>
@@ -10124,6 +11827,36 @@ export namespace Prisma {
     tripId?: StringFilter<"Destination"> | string
   }
 
+  export type ChecklistUpsertWithWhereUniqueWithoutTripInput = {
+    where: ChecklistWhereUniqueInput
+    update: XOR<ChecklistUpdateWithoutTripInput, ChecklistUncheckedUpdateWithoutTripInput>
+    create: XOR<ChecklistCreateWithoutTripInput, ChecklistUncheckedCreateWithoutTripInput>
+  }
+
+  export type ChecklistUpdateWithWhereUniqueWithoutTripInput = {
+    where: ChecklistWhereUniqueInput
+    data: XOR<ChecklistUpdateWithoutTripInput, ChecklistUncheckedUpdateWithoutTripInput>
+  }
+
+  export type ChecklistUpdateManyWithWhereWithoutTripInput = {
+    where: ChecklistScalarWhereInput
+    data: XOR<ChecklistUpdateManyMutationInput, ChecklistUncheckedUpdateManyWithoutTripInput>
+  }
+
+  export type ChecklistScalarWhereInput = {
+    AND?: ChecklistScalarWhereInput | ChecklistScalarWhereInput[]
+    OR?: ChecklistScalarWhereInput[]
+    NOT?: ChecklistScalarWhereInput | ChecklistScalarWhereInput[]
+    id?: StringFilter<"Checklist"> | string
+    title?: StringFilter<"Checklist"> | string
+    category?: StringFilter<"Checklist"> | string
+    isCompleted?: BoolFilter<"Checklist"> | boolean
+    createdAt?: DateTimeFilter<"Checklist"> | Date | string
+    updatedAt?: DateTimeFilter<"Checklist"> | Date | string
+    tripId?: StringFilter<"Checklist"> | string
+    sessionId?: StringNullableFilter<"Checklist"> | string | null
+  }
+
   export type TripCreateWithoutDestinationsInput = {
     id?: string
     title: string
@@ -10131,6 +11864,7 @@ export namespace Prisma {
     endDate?: Date | string | null
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutTripsInput
+    checklists?: ChecklistCreateNestedManyWithoutTripInput
   }
 
   export type TripUncheckedCreateWithoutDestinationsInput = {
@@ -10140,6 +11874,7 @@ export namespace Prisma {
     endDate?: Date | string | null
     createdAt?: Date | string
     userId: string
+    checklists?: ChecklistUncheckedCreateNestedManyWithoutTripInput
   }
 
   export type TripCreateOrConnectWithoutDestinationsInput = {
@@ -10165,6 +11900,7 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTripsNestedInput
+    checklists?: ChecklistUpdateManyWithoutTripNestedInput
   }
 
   export type TripUncheckedUpdateWithoutDestinationsInput = {
@@ -10174,6 +11910,7 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    checklists?: ChecklistUncheckedUpdateManyWithoutTripNestedInput
   }
 
   export type UserCreateWithoutChatSessionsInput = {
@@ -10230,6 +11967,36 @@ export namespace Prisma {
 
   export type MessageCreateManySessionInputEnvelope = {
     data: MessageCreateManySessionInput | MessageCreateManySessionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ChecklistCreateWithoutSessionInput = {
+    id?: string
+    title: string
+    category?: string
+    isCompleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    trip: TripCreateNestedOneWithoutChecklistsInput
+  }
+
+  export type ChecklistUncheckedCreateWithoutSessionInput = {
+    id?: string
+    title: string
+    category?: string
+    isCompleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId: string
+  }
+
+  export type ChecklistCreateOrConnectWithoutSessionInput = {
+    where: ChecklistWhereUniqueInput
+    create: XOR<ChecklistCreateWithoutSessionInput, ChecklistUncheckedCreateWithoutSessionInput>
+  }
+
+  export type ChecklistCreateManySessionInputEnvelope = {
+    data: ChecklistCreateManySessionInput | ChecklistCreateManySessionInput[]
     skipDuplicates?: boolean
   }
 
@@ -10299,11 +12066,28 @@ export namespace Prisma {
     sessionId?: StringFilter<"Message"> | string
   }
 
+  export type ChecklistUpsertWithWhereUniqueWithoutSessionInput = {
+    where: ChecklistWhereUniqueInput
+    update: XOR<ChecklistUpdateWithoutSessionInput, ChecklistUncheckedUpdateWithoutSessionInput>
+    create: XOR<ChecklistCreateWithoutSessionInput, ChecklistUncheckedCreateWithoutSessionInput>
+  }
+
+  export type ChecklistUpdateWithWhereUniqueWithoutSessionInput = {
+    where: ChecklistWhereUniqueInput
+    data: XOR<ChecklistUpdateWithoutSessionInput, ChecklistUncheckedUpdateWithoutSessionInput>
+  }
+
+  export type ChecklistUpdateManyWithWhereWithoutSessionInput = {
+    where: ChecklistScalarWhereInput
+    data: XOR<ChecklistUpdateManyMutationInput, ChecklistUncheckedUpdateManyWithoutSessionInput>
+  }
+
   export type ChatSessionCreateWithoutMessagesInput = {
     id?: string
     title?: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutChatSessionsInput
+    checklists?: ChecklistCreateNestedManyWithoutSessionInput
   }
 
   export type ChatSessionUncheckedCreateWithoutMessagesInput = {
@@ -10311,6 +12095,7 @@ export namespace Prisma {
     title?: string
     createdAt?: Date | string
     userId: string
+    checklists?: ChecklistUncheckedCreateNestedManyWithoutSessionInput
   }
 
   export type ChatSessionCreateOrConnectWithoutMessagesInput = {
@@ -10334,6 +12119,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutChatSessionsNestedInput
+    checklists?: ChecklistUpdateManyWithoutSessionNestedInput
   }
 
   export type ChatSessionUncheckedUpdateWithoutMessagesInput = {
@@ -10341,6 +12127,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    checklists?: ChecklistUncheckedUpdateManyWithoutSessionNestedInput
   }
 
   export type UserCreateWithoutVerificationCodesInput = {
@@ -10415,6 +12202,110 @@ export namespace Prisma {
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type TripCreateWithoutChecklistsInput = {
+    id?: string
+    title: string
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutTripsInput
+    destinations?: DestinationCreateNestedManyWithoutTripInput
+  }
+
+  export type TripUncheckedCreateWithoutChecklistsInput = {
+    id?: string
+    title: string
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    createdAt?: Date | string
+    userId: string
+    destinations?: DestinationUncheckedCreateNestedManyWithoutTripInput
+  }
+
+  export type TripCreateOrConnectWithoutChecklistsInput = {
+    where: TripWhereUniqueInput
+    create: XOR<TripCreateWithoutChecklistsInput, TripUncheckedCreateWithoutChecklistsInput>
+  }
+
+  export type ChatSessionCreateWithoutChecklistsInput = {
+    id?: string
+    title?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutChatSessionsInput
+    messages?: MessageCreateNestedManyWithoutSessionInput
+  }
+
+  export type ChatSessionUncheckedCreateWithoutChecklistsInput = {
+    id?: string
+    title?: string
+    createdAt?: Date | string
+    userId: string
+    messages?: MessageUncheckedCreateNestedManyWithoutSessionInput
+  }
+
+  export type ChatSessionCreateOrConnectWithoutChecklistsInput = {
+    where: ChatSessionWhereUniqueInput
+    create: XOR<ChatSessionCreateWithoutChecklistsInput, ChatSessionUncheckedCreateWithoutChecklistsInput>
+  }
+
+  export type TripUpsertWithoutChecklistsInput = {
+    update: XOR<TripUpdateWithoutChecklistsInput, TripUncheckedUpdateWithoutChecklistsInput>
+    create: XOR<TripCreateWithoutChecklistsInput, TripUncheckedCreateWithoutChecklistsInput>
+    where?: TripWhereInput
+  }
+
+  export type TripUpdateToOneWithWhereWithoutChecklistsInput = {
+    where?: TripWhereInput
+    data: XOR<TripUpdateWithoutChecklistsInput, TripUncheckedUpdateWithoutChecklistsInput>
+  }
+
+  export type TripUpdateWithoutChecklistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutTripsNestedInput
+    destinations?: DestinationUpdateManyWithoutTripNestedInput
+  }
+
+  export type TripUncheckedUpdateWithoutChecklistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    destinations?: DestinationUncheckedUpdateManyWithoutTripNestedInput
+  }
+
+  export type ChatSessionUpsertWithoutChecklistsInput = {
+    update: XOR<ChatSessionUpdateWithoutChecklistsInput, ChatSessionUncheckedUpdateWithoutChecklistsInput>
+    create: XOR<ChatSessionCreateWithoutChecklistsInput, ChatSessionUncheckedCreateWithoutChecklistsInput>
+    where?: ChatSessionWhereInput
+  }
+
+  export type ChatSessionUpdateToOneWithWhereWithoutChecklistsInput = {
+    where?: ChatSessionWhereInput
+    data: XOR<ChatSessionUpdateWithoutChecklistsInput, ChatSessionUncheckedUpdateWithoutChecklistsInput>
+  }
+
+  export type ChatSessionUpdateWithoutChecklistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutChatSessionsNestedInput
+    messages?: MessageUpdateManyWithoutSessionNestedInput
+  }
+
+  export type ChatSessionUncheckedUpdateWithoutChecklistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    messages?: MessageUncheckedUpdateManyWithoutSessionNestedInput
+  }
+
   export type TripCreateManyUserInput = {
     id?: string
     title: string
@@ -10444,6 +12335,7 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     destinations?: DestinationUpdateManyWithoutTripNestedInput
+    checklists?: ChecklistUpdateManyWithoutTripNestedInput
   }
 
   export type TripUncheckedUpdateWithoutUserInput = {
@@ -10453,6 +12345,7 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     destinations?: DestinationUncheckedUpdateManyWithoutTripNestedInput
+    checklists?: ChecklistUncheckedUpdateManyWithoutTripNestedInput
   }
 
   export type TripUncheckedUpdateManyWithoutUserInput = {
@@ -10468,6 +12361,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUpdateManyWithoutSessionNestedInput
+    checklists?: ChecklistUpdateManyWithoutSessionNestedInput
   }
 
   export type ChatSessionUncheckedUpdateWithoutUserInput = {
@@ -10475,6 +12369,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUncheckedUpdateManyWithoutSessionNestedInput
+    checklists?: ChecklistUncheckedUpdateManyWithoutSessionNestedInput
   }
 
   export type ChatSessionUncheckedUpdateManyWithoutUserInput = {
@@ -10515,6 +12410,16 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ChecklistCreateManyTripInput = {
+    id?: string
+    title: string
+    category?: string
+    isCompleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessionId?: string | null
+  }
+
   export type DestinationUpdateWithoutTripInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -10539,11 +12444,51 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ChecklistUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    session?: ChatSessionUpdateOneWithoutChecklistsNestedInput
+  }
+
+  export type ChecklistUncheckedUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ChecklistUncheckedUpdateManyWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type MessageCreateManySessionInput = {
     id?: string
     role: string
     content: string
     createdAt?: Date | string
+  }
+
+  export type ChecklistCreateManySessionInput = {
+    id?: string
+    title: string
+    category?: string
+    isCompleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId: string
   }
 
   export type MessageUpdateWithoutSessionInput = {
@@ -10565,6 +12510,36 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChecklistUpdateWithoutSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trip?: TripUpdateOneRequiredWithoutChecklistsNestedInput
+  }
+
+  export type ChecklistUncheckedUpdateWithoutSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ChecklistUncheckedUpdateManyWithoutSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
   }
 
 

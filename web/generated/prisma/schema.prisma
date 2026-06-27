@@ -40,6 +40,8 @@ model Trip {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   destinations Destination[]
+
+  checklists Checklist[]
 }
 
 model Destination {
@@ -61,7 +63,8 @@ model ChatSession {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  messages Message[]
+  messages   Message[]
+  checklists Checklist[]
 }
 
 model Message {
@@ -83,4 +86,19 @@ model VerificationCode {
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Checklist {
+  id          String   @id @default(uuid())
+  title       String
+  category    String   @default("Бусад")
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tripId String
+  trip   Trip   @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  sessionId String?
+  session   ChatSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
 }

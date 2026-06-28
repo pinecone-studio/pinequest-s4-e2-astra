@@ -15,28 +15,28 @@ export default function HomeFooter() {
   const pathname = usePathname();
 
   return (
-    <footer className="border-t border-slate-200 bg-white/95 px-3 pb-3 pt-2 backdrop-blur">
-      <nav className="grid grid-cols-4 gap-1">
+    <footer className="border-t border-slate-100 bg-white/95 px-4 pb-4 pt-2 backdrop-blur-md">
+      <nav className="grid grid-cols-4 gap-2">
         {footerItems.map((item) => {
           const Icon = item.icon;
-          const active = pathname === item.href;
+          const active = pathname === item.href || (item.href === "/home" && pathname === "/");
 
           return (
             <Link
               key={item.label}
               href={item.href}
-              className={`flex h-14 flex-col items-center justify-center rounded-2xl text-xs font-bold transition ${
+              className={`flex h-14 flex-col items-center justify-center rounded-2xl text-[11px] font-bold transition-all duration-200 ${
                 active
-                  ? "bg-[#e6fffa] text-[#0b7f71] scale-105"
-                  : "text-slate-500 hover:bg-slate-100"
+                  ? "bg-[#efefef] text-[#1b9bd7]  scale-102"
+                  : "text-slate-500 hover:bg-slate-50 active:scale-95"
               }`}
             >
               <Icon
-                size={17}
-                strokeWidth={2}
-                className={active ? "text-[#0b7f71]" : ""}
+                size={20} 
+                strokeWidth={active ? 2.5 : 2} 
+                className="transition-transform duration-200"
               />
-              <span className="mt-1">{item.label}</span>
+              <span className="mt-1 font-medium tracking-tight">{item.label}</span>
             </Link>
           );
         })}

@@ -9,6 +9,9 @@ import HeroTripCard from "./components/HeroTripCard";
 import HeroWeatherPanel from "./components/HeroWeatherPanel";
 import { useHeroForecast } from "./components/useHeroForecast";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+
 type HeroPageShellProps = {
   children: ReactNode;
 };
@@ -43,15 +46,15 @@ function HeroPhoneLayout({ children }: HeroPhoneLayoutProps) {
 
 function HeroHeader() {
   return (
-    <header className="flex items-center justify-between border-b border-slate-200 px-5 pb-4 pt-8">
+    <header className="flex items-center justify-between bg-[#1b9bd7] border-b border-slate-200 px-5 pb-4 pt-8">
       <Logo />
 
       <button
         type="button"
-        aria-label="Help"
-        className="grid h-10 w-10 place-items-center rounded-full border-2 border-[#6ed7c9] bg-[#e9fffb] text-xl font-semibold text-slate-950"
+        aria-label="Profile"
+        className="grid h-10 w-10 place-items-center rounded-full border-2 border-[#62a132]/30 bg-[#62a132]/10 text-lg text-[#d3d3d3] transition-colors hover:bg-[#62a132]/20"
       >
-        ?
+        <FontAwesomeIcon icon={faUser} />
       </button>
     </header>
   );
@@ -59,7 +62,7 @@ function HeroHeader() {
 
 function HeroScrollArea({ children }: HeroScrollAreaProps) {
   return (
-    <div className="min-h-0 flex-1 overflow-y-auto">
+    <div className="scrollbar-invisible min-h-0 flex-1 overflow-y-auto">
       <div className="space-y-7 px-5 py-6">{children}</div>
     </div>
   );

@@ -23,11 +23,13 @@ export const chat = () => {
       <HomeBackdrop active={true} />
       <div className="relative z-10">
         <PhoneFrame>
-          <div className="h-full">
-            <TravelChatbot />
-          </div>
-          <div className="mt-47">
-            <Footer />
+          <div className="flex flex-col h-full">
+            <div className="h-[90%]">
+              <TravelChatbot />
+            </div>
+            <div className="mt-0">
+              <Footer />
+            </div>
           </div>
         </PhoneFrame>
       </div>

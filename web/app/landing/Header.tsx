@@ -13,16 +13,10 @@ export default function Header() {
     <header className="fixed top-0 z-50 w-full border-b border-gray-100 bg-white/70 backdrop-blur-xl">
 
       <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-4">
-
-        {/* logo */}
         <h1 className="text-2xl font-bold tracking-tight text-teal-700 cursor-pointer">
           MonTrip
         </h1>
-
-        {/* right side */}
         <div className="flex items-center gap-3">
-
-          {/* language toggle */}
           <button
             onClick={toggleLang}
             className="relative overflow-hidden rounded-full border border-gray-200 bg-white px-5 py-2 text-sm text-gray-700 shadow-sm transition
@@ -32,8 +26,6 @@ export default function Header() {
               {lang === "mn" ? "MN → EN" : "EN → MN"}
             </span>
           </button>
-
-          {/* CTA mini (optional but looks pro) */}
         
 
         </div>

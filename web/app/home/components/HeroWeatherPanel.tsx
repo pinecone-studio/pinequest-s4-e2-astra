@@ -50,7 +50,7 @@ export default function HeroWeatherPanel({ forecast }: HeroWeatherPanelProps) {
                 {new Date(date).toLocaleDateString("en-US", { weekday: "short" })}
               </p>
               
-              <div className="my-2 flex h-12 w-full items-center justify-center">
+              <div className="my-2 flex h-6 w-full items-center justify-center">
                 <WeatherIcon type={getWeatherType(forecast.daily?.weathercode?.[index] ?? 0)} />
               </div>
               

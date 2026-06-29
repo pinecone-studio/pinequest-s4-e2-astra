@@ -5,7 +5,7 @@ export default function HeroTripCard() {
   return (
     <div className="relative h-60 overflow-hidden rounded-3xl">
       <Image
-        src="/bus.png"
+        src="/huvsgul.png"
         alt="Mountain travel destination"
         fill
         priority

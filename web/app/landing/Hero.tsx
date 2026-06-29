@@ -6,19 +6,18 @@ export default function Hero() {
   return (
   <section className="relative h-[85vh] overflow-hidden">
 
-      {/* background image */}
+
  <img
   src="dembee-tsogoo-PU_hcOj2rFI-unsplash.jpg"
   alt="Монголын байгаль"
   className="absolute inset-0 h-full w-full object-cover object-[center_50%]"
 />
-      {/* dark overlay */}
+
       <div className="absolute inset-0 bg-black/50" />
 
-      {/* content */}
       <div className="relative mx-auto flex h-full max-w-7x flex-col items-center justify-center px-8 text-center text-white">
 
-        {/* badge */}
+
         <motion.span
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -28,7 +27,7 @@ export default function Hero() {
           AI аяллын маршрут төлөвлөгч
         </motion.span>
 
-        {/* title */}
+
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -40,7 +39,7 @@ export default function Hero() {
           <span className="text-teal-300">ухаалгаар төлөвлөөрэй</span>
         </motion.h1>
 
-        {/* description */}
+
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -52,7 +51,7 @@ export default function Hero() {
           хэдхэн секундын дотор гаргаж өгнө.
         </motion.p>
 
-        {/* buttons */}
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -74,4 +73,3 @@ export default function Hero() {
     </section>
   );
 }
-// pinequest-s4-e2-team-4 

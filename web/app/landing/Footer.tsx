@@ -3,49 +3,18 @@ export default function Footer() {
   return (
 
     <footer className="border-t bg-white">
-
-
-
       <div className="mx-auto grid max-w-7xl gap-12 px-8 py-16 md:grid-cols-3">
-
-
-
-        {/* Brand */}
-
         <div>
-
           <h2 className="mb-4 text-2xl font-bold text-teal-700">
-
             MonTrip
-
           </h2>
-
-
-
           <p className="text-sm text-gray-500 leading-relaxed">
-
             AI-д суурилсан аяллын маршрут төлөвлөгч платформ.
-
             Таны төсөв, хугацаа, сонирхолд тохирсон аяллыг
-
             ухаалгаар төлөвлөж өгнө.
-
-          </p>
-
-
-
-          <p className="mt-6 text-xs text-gray-400">
-
-            © 2026 MonTrip. Бүх эрх хуулиар хамгаалагдсан.
-
           </p>
 
         </div>
-
-
-
-        {/* Product */}
-
         <div>
 
           <h3 className="mb-4 text-sm font-semibold text-gray-700 uppercase tracking-wide">

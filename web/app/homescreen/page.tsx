@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import PhoneFrame from "@/components/home/PhoneFrame";
 import HomeBackdrop from "@/components/home/HomeBackdrop";
 import { StatusBar } from "./components/StatusBar";
@@ -41,6 +41,8 @@ function AppIcon({ name, icon }: { name: string; icon: string }) {
 }
 
 const HomeScreen = () => {
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+
   return (
     <div className="h-screen w-screen flex items-center justify-center">
       <HomeBackdrop active={true} />
@@ -54,12 +56,27 @@ const HomeScreen = () => {
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
 
-          <StatusBar />
+          {/* Top Status Bar with transition */}
+          <div
+            className="transition-opacity duration-[400ms] ease-in-out z-20"
+            style={{
+              opacity: isVideoOpen ? 0 : 1,
+              pointerEvents: isVideoOpen ? "none" : "auto",
+            }}
+          >
+            <StatusBar />
+          </div>
 
           {/* Main content */}
-          <div className="relative top-7 z-10 w-full flex flex-col gap-6 pt-6">
-            {/* Widgets */}
-            <div className="flex gap-3 w-full">
+          <div className="relative top-[-120px] z-10 w-full flex flex-col gap-6 pt-6">
+            {/* Widgets with transition */}
+            <div
+              className="flex gap-3 w-full transition-opacity duration-[400ms] ease-in-out"
+              style={{
+                opacity: isVideoOpen ? 0 : 1,
+                pointerEvents: isVideoOpen ? "none" : "auto",
+              }}
+            >
               <WeatherWidget
                 city="Ulaanbaatar"
                 temp={20}
@@ -84,16 +101,36 @@ const HomeScreen = () => {
             <div className="grid grid-cols-4 gap-x-4 gap-y-5 justify-items-center">
               {APPS.map((app) =>
                 app.special ? (
-                  <VideoAppIcon key={app.id} name={app.name} icon={app.icon} />
+                  <VideoAppIcon
+                    key={app.id}
+                    name={app.name}
+                    icon={app.icon}
+                    onOpenChange={setIsVideoOpen}
+                  />
                 ) : (
-                  <AppIcon key={app.id} name={app.name} icon={app.icon} />
+                  <div
+                    key={app.id}
+                    className="transition-opacity duration-[400ms] ease-in-out"
+                    style={{
+                      opacity: isVideoOpen ? 0 : 1,
+                      pointerEvents: isVideoOpen ? "none" : "auto",
+                    }}
+                  >
+                    <AppIcon name={app.name} icon={app.icon} />
+                  </div>
                 ),
               )}
             </div>
           </div>
 
-          {/* Dock */}
-          <div className="relative z-10 w-full pb-2">
+          {/* Dock with transition */}
+          <div
+            className="relative z-10 w-full pb-2 transition-opacity duration-[400ms] ease-in-out"
+            style={{
+              opacity: isVideoOpen ? 0 : 1,
+              pointerEvents: isVideoOpen ? "none" : "auto",
+            }}
+          >
             <div className="w-full bg-white/15 backdrop-blur-xl border border-white/20 rounded-[28px] p-3 grid grid-cols-4 gap-3 shadow-2xl justify-items-center">
               {DOCK_APPS.map((app) => (
                 <div

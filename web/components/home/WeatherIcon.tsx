@@ -5,38 +5,37 @@ type WeatherIconProps = {
 export default function WeatherIcon({
   type,
 }: WeatherIconProps) {
-  if (type === "cloud") {
-    return <span className="weather-cloud" />;
-  }
-
-  if (type === "rain") {
-    return (
-      <span className="weather-rain">
-        <i />
-        <b />
-      </span>
-    );
-  }
-
-  if (type === "wind") {
-    return (
-      <span className="weather-wind">
-        <i />
-        <b />
-      </span>
-    );
-  }
-
   return (
-    <span
-      className={
-        type === "heat"
-          ? "weather-sun heat"
-          : "weather-sun"
-      }
-    />
+    <div className="relative w-full h-full flex items-center justify-center transform scale-[0.75]">
+      {type === "cloud" && <span className="weather-cloud" />}
+
+      {type === "rain" && (
+        <span className="weather-rain">
+          <i />
+          <b />
+        </span>
+      )}
+
+      {type === "wind" && (
+        <span className="weather-wind">
+          <i />
+          <b />
+        </span>
+      )}
+
+      {(type === "sun" || type === "heat") && (
+        <span
+          className={
+            type === "heat"
+              ? "weather-sun heat"
+              : "weather-sun"
+          }
+        />
+      )}
+    </div>
   );
 }
+
 function getWeatherIcon(
   code: number
 ): "sun" | "cloud" | "rain" | "wind" | "heat" {

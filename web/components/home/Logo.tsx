@@ -5,9 +5,17 @@ type LogoProps = {
 
 export default function Logo({ large = false, wordClassName = "" }: LogoProps) {
   return (
-    <div className={`flex items-center gap-2 font-black ${large ? "flex-col text-xl" : "text-1xl text-[#075f56]"}`}>
-    
-      <span className={wordClassName}>MonTrip</span>
+    <div 
+      className={`
+        flex items-center gap-2 
+        font-sans font-black tracking-tight select-none
+        ${large ? "text-5xl md:text-6xl text-[#e0e0e0]" : "text-2xl text-[#ffffff]"}
+      `}
+      style={{ fontFamily: "'Nunito', 'Segoe UI', sans-serif" }} 
+    >
+      <span className={`${wordClassName} transition-all duration-300`}>
+        MonTrip
+      </span>
     </div>
   );
 }

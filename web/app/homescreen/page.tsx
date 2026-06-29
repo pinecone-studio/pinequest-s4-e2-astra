@@ -120,7 +120,7 @@ const APPS = [
   { id: 5, name: "App Store", icon: "/appstore.png", special: false },
   { id: 6, name: "Face Time", icon: "/facetime.png", special: false },
   { id: 7, name: "Video", icon: "/", special: true }, // ← VideoApp
-  { id: 8, name: "MonTrip", icon: "/", special: false },
+  { id: 8, name: "MonTrip", icon: "/montrip.png", special: false },
 ];
 
 const DOCK_APPS = [

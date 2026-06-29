@@ -3,39 +3,45 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
+const openEase = [0.76, 0, 0.24, 1] as const;
+
 const Hero = () => {
   return (
     <section className="relative h-screen w-full overflow-hidden bg-[#f7f4ed]">
-      <Image
-        src="/khuvsgul-lake.jpg"
-        alt="Khuvsgul lake"
-        fill
-        priority
-        className="object-cover"
+      <motion.div
+        initial={{ scale: 1.08, x: "-1.5%", y: "-1%" }}
+        animate={{
+          scale: [1.08, 1.14, 1.1],
+          x: ["-1.5%", "1.8%", "-0.6%"],
+          y: ["-1%", "0.8%", "-0.4%"],
+        }}
+        transition={{
+          duration: 18,
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "mirror",
+        }}
+        className="absolute inset-0"
+      >
+        <Image
+          src="/khuvsgul-lake.jpg"
+          alt="Khuvsgul lake"
+          fill
+          priority
+          className="object-cover"
+        />
+      </motion.div>
+
+
+      <div className="absolute inset-0 bg-gradient-to-t from-[#f7f4ed]/25 via-transparent to-transparent" />
+      <motion.div
+        initial={{ opacity: 0.72 }}
+        animate={{ opacity: 0.18 }}
+        transition={{ duration: 3.2, delay: 1.1 }}
+        className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(247,244,237,.18)_36%,rgba(28,42,18,.5)_100%)]"
       />
 
-      <div className="absolute inset-0 bg-gradient-to-r from-[#f7f4ed]/95 via-[#f7f4ed]/55 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#f7f4ed]/25 via-transparent to-transparent" />
-
   
-      <motion.nav
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 3, duration: 0.8 }}
-        className="absolute left-0 top-0 z-30 flex w-full items-center justify-between px-20 py-8"
-      >
-        <div className="text-xl font-bold text-[#3f5518]">MonTrip</div>
-
-        <div className="flex gap-8 text-sm text-black/70">
-          <span>Нүүр</span>
-          <span>Асуудал</span>
-          <span>Шийдэл</span>
-          <span>AI Demo</span>
-          <span>Баг</span>
-        </div>
-      </motion.nav>
-
-   
       <motion.img
         src="/cloud-left.png"
         alt="cloud left"
@@ -44,7 +50,7 @@ const Hero = () => {
         transition={{
           duration: 3,
           delay: 0.4,
-          ease: [0.76, 0, 0.24, 1],
+          ease: openEase,
         }}
         className="pointer-events-none absolute left-[-10%] top-[-15%] z-50 h-[130vh] w-[75vw] object-cover"
       />
@@ -58,7 +64,7 @@ const Hero = () => {
         transition={{
           duration: 3,
           delay: 0.4,
-          ease: [0.76, 0, 0.24, 1],
+          ease: openEase,
         }}
         className="pointer-events-none absolute right-[-10%] top-[-15%] z-50 h-[130vh] w-[75vw] object-cover"
       />
@@ -72,25 +78,18 @@ const Hero = () => {
 
 
       <motion.div
-        initial={{ opacity: 0, y: 50, filter: "blur(12px)" }}
-        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        transition={{ duration: 1, delay: 2.7 }}
-        className="relative z-20 flex h-full flex-col justify-center px-24"
+        initial={{ opacity: 0, y: 90, scale: 0.74, rotateX: 18, filter: "blur(18px)" }}
+        animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0, filter: "blur(0px)" }}
+        transition={{ duration: 1.25, delay: 2.25, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-20 flex h-full flex-col items-center justify-center px-6 text-center [perspective:1200px] sm:px-16"
       >
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 3 }}
-          className="mb-4 font-semibold tracking-widest text-[#4d641f]"
-        >
-          AI TRAVEL PLANNER
-        </motion.p>
+     
 
         <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 3.2 }}
-          className="text-8xl font-black tracking-tight text-[#3f5518]"
+          initial={{ opacity: 0, scale: 0.42, z: -260, filter: "blur(24px)" }}
+          animate={{ opacity: 1, scale: 1, z: 0, filter: "blur(0px)" }}
+          transition={{ duration: 1.35, delay: 2.55, ease: [0.16, 1, 0.3, 1] }}
+          className="text-7xl font-black tracking-normal text-[#314414] drop-shadow-[0_18px_45px_rgba(247,244,237,.75)] sm:text-9xl "
         >
           MonTrip
         </motion.h1>
@@ -98,46 +97,21 @@ const Hero = () => {
         <motion.p
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 3.4 }}
-          className="mt-6 max-w-xl text-2xl leading-snug text-black"
+          transition={{ delay: 3.15 }}
+          className="mt-6 max-w-xl text-2xl leading-snug text-black sm:text-3xl"
         >
           Монголд аялах хамгийн тохиромжтой газрыг{" "}
           <span className="font-bold text-[#4d641f]">AI</span> санал болгоно
         </motion.p>
 
-        <motion.p
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 3.55 }}
-          className="mt-4 max-w-lg text-base leading-relaxed text-black/60"
-        >
-          Хувийн сонирхол, төсөв, хугацаанд тохирсон аяллын маршрутыг ухаалгаар
-          төлөвлөнө.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 3.7 }}
-          className="mt-8 flex gap-4"
-        >
-          <button className="rounded-full bg-[#4d641f] px-8 py-4 text-white shadow-xl transition hover:scale-105">
-            Demo үзэх →
-          </button>
-
-          <button className="rounded-full border border-[#4d641f] px-8 py-4 text-[#4d641f] transition hover:scale-105 hover:bg-white/60">
-            Илүү их мэдэх →
-          </button>
-        </motion.div>
-
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, y: [0, 8, 0] }}
           transition={{
-            opacity: { delay: 4 },
+            opacity: { delay: 3.9 },
             y: { repeat: Infinity, duration: 1.4 },
           }}
-          className="absolute bottom-10 left-24 text-sm text-black/60"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-sm text-black/60"
         >
           ↓ Scroll to explore
         </motion.div>

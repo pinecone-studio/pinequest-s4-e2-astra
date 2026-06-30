@@ -1,94 +1,56 @@
 import { prisma } from "@/lib/prisma";
 import jwt from "jsonwebtoken";
-import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 
-export async function PUT(request: NextRequest) {
+const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_key";
+
+export async function GET() {
   try {
-    const token = request.cookies.get("token")?.value;
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
 
     if (!token) {
       return NextResponse.json(
-        { error: "Нэвтрэх токен олдсонгүй" },
+        { error: "Нэвтрээгүй байна. Токен олдсонгүй." },
         { status: 401 },
       );
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
-      userId: string;
-    };
-    const userId = decoded.userId;
+    let decoded: any;
+    try {
+      decoded = jwt.verify(token, JWT_SECRET);
+    } catch (err) {
+      return NextResponse.json(
+        { error: "Хүчингүй эсвэл хугацаа нь дууссан токен." },
+        { status: 401 },
+      );
+    }
 
-    const { phone, name } = await request.json();
-
-    const currentUser = await prisma.user.findUnique({
-      where: { id: userId },
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
 
-    if (!currentUser) {
+    if (!user) {
       return NextResponse.json(
-        { error: "Хэрэглэгч олдсонгүй" },
+        { error: "Хэрэглэгч олдсонгүй." },
         { status: 404 },
       );
     }
 
-    const updateData: Record<string, any> = {};
-
-    if (name !== undefined && name !== currentUser.name) {
-      updateData.name = name;
-    }
-    if (phone !== undefined && phone !== currentUser.phone) {
-      updateData.phone = phone;
-    }
-
-    if (Object.keys(updateData).length === 0) {
-      return NextResponse.json({
-        message: "Хэрэглэгчийн мэдээлэл амжилттай шинэчлэгдлээ",
-        user: {
-          id: currentUser.id,
-          email: currentUser.email,
-          username: currentUser.username,
-          name: currentUser.name,
-          phone: currentUser.phone,
-          profileImage: currentUser.profileImage,
-        },
-      });
-    }
-
-    if (updateData.phone) {
-      const existingUserWithPhone = await prisma.user.findUnique({
-        where: { phone: updateData.phone },
-      });
-
-      if (existingUserWithPhone) {
-        return NextResponse.json(
-          {
-            error: "Энэ утасны дугаар аль хэдийн өөр бүртгэлд холбогдсон байна",
-          },
-          { status: 400 },
-        );
-      }
-    }
-
-    const updatedUser = await prisma.user.update({
-      where: { id: userId },
-      data: updateData,
-    });
-
-    return NextResponse.json({
-      message: "Хэрэглэгчийн мэдээлэл амжилттай шинэчлэгдлээ",
-      user: {
-        id: updatedUser.id,
-        email: updatedUser.email,
-        username: updatedUser.username,
-        name: updatedUser.name,
-        phone: updatedUser.phone,
-        profileImage: updatedUser.profileImage,
-      },
-    });
+    return NextResponse.json(user);
   } catch (error) {
-    console.error("Profile update error:", error);
+    console.error("Get profile error:", error);
     return NextResponse.json(
-      { error: "Серверийн алдаа гарлаа" },
+      { error: "Серверийн алдаа гарлаа." },
       { status: 500 },
     );
   }

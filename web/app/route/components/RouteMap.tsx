@@ -5,11 +5,27 @@ import { useEffect, useRef, useState } from "react";
 import RouteMapControls from "./RouteMapControls";
 import { fetchDrivingRoute, fetchNearbyGasStations } from "./routeMapApi";
 import {
+  fetchNearbyRestaurants,
+  fetchRestaurantDrivingRoute,
+} from "./routeRestaurantApi";
+import {
+  fetchNearbyTireRepairs,
+  fetchTireRepairDrivingRoute,
+} from "./routeTireRepairApi";
+import {
   clearGasStationRoute,
   drawNearestGasStationRoute,
   getRenderedGasStations,
   updateLiveLocation,
 } from "./routeMapLayers";
+import {
+  clearRestaurantRoute,
+  drawNearestRestaurantRoute,
+} from "./routeRestaurantLayers";
+import {
+  clearTireRepairRoute,
+  drawNearestTireRepairRoute,
+} from "./routeTireRepairLayers";
 import type { Coordinate } from "./routeMap.types";
 import { fallbackPoint, formatDistance } from "./routeMapUtils";
 
@@ -21,7 +37,11 @@ export default function RouteMap() {
   const locationMarkerRef = useRef<mapboxgl.Marker | null>(null);
   const currentPointRef = useRef<Coordinate>(fallbackPoint);
   const gasMarkersRef = useRef<mapboxgl.Marker[]>([]);
+  const restaurantMarkersRef = useRef<mapboxgl.Marker[]>([]);
+  const tireRepairMarkersRef = useRef<mapboxgl.Marker[]>([]);
   const [isFindingGasStation, setIsFindingGasStation] = useState(false);
+  const [isFindingRestaurant, setIsFindingRestaurant] = useState(false);
+  const [isFindingTireRepair, setIsFindingTireRepair] = useState(false);
   const [gasStationStatus, setGasStationStatus] = useState("");
 
   useEffect(() => {
@@ -72,6 +92,10 @@ export default function RouteMap() {
 
       clearGasStationRoute(map, gasMarkersRef.current);
       gasMarkersRef.current = [];
+      clearRestaurantRoute(map, restaurantMarkersRef.current);
+      restaurantMarkersRef.current = [];
+      clearTireRepairRoute(map, tireRepairMarkersRef.current);
+      tireRepairMarkersRef.current = [];
       locationMarkerRef.current?.remove();
       locationMarkerRef.current = null;
       map.remove();
@@ -106,6 +130,10 @@ export default function RouteMap() {
 
       clearGasStationRoute(map, gasMarkersRef.current);
       gasMarkersRef.current = [];
+      clearRestaurantRoute(map, restaurantMarkersRef.current);
+      restaurantMarkersRef.current = [];
+      clearTireRepairRoute(map, tireRepairMarkersRef.current);
+      tireRepairMarkersRef.current = [];
 
       if (gasStations.length === 0) {
         setGasStationStatus("7 км-ийн хүрээнд шатахуун түгээх станц олдсонгүй.");
@@ -148,6 +176,130 @@ export default function RouteMap() {
     }
   };
 
+  const handleFindRestaurant = async () => {
+    if (!mapRef.current || !accessToken || isFindingRestaurant) {
+      return;
+    }
+
+    const map = mapRef.current;
+    const origin = currentPointRef.current;
+
+    setIsFindingRestaurant(true);
+    setGasStationStatus("Таны ойролцоох хоолны газруудыг хайж байна...");
+
+    try {
+      const restaurants = await fetchNearbyRestaurants(origin, 5000, accessToken);
+
+      clearRestaurantRoute(map, restaurantMarkersRef.current);
+      restaurantMarkersRef.current = [];
+      clearGasStationRoute(map, gasMarkersRef.current);
+      gasMarkersRef.current = [];
+      clearTireRepairRoute(map, tireRepairMarkersRef.current);
+      tireRepairMarkersRef.current = [];
+
+      if (restaurants.length === 0) {
+        setGasStationStatus("5 км-ийн хүрээнд ойролцоох хоолны газар олдсонгүй.");
+        return;
+      }
+
+      setGasStationStatus(`${restaurants.length} хоолны газар олдлоо. Замуудыг шалгаж байна...`);
+
+      const routeCandidates = await Promise.all(
+        restaurants.slice(0, 15).map(async (restaurant) => ({
+          restaurant,
+          route: await fetchRestaurantDrivingRoute(origin, restaurant.center, accessToken),
+        })),
+      );
+      const nearestCandidate = routeCandidates.sort(
+        (first, second) =>
+          (first.route?.distance ?? first.restaurant.distanceMeters) -
+          (second.route?.distance ?? second.restaurant.distanceMeters),
+      )[0];
+      const nearestRestaurant = nearestCandidate.restaurant;
+      const route = nearestCandidate.route;
+      const routeGeometry =
+        route?.geometry ??
+        ({
+          type: "LineString",
+          coordinates: [origin, nearestRestaurant.center],
+        } as const);
+      const routeDistance = route?.distance ?? nearestRestaurant.distanceMeters;
+
+      restaurantMarkersRef.current = [
+        drawNearestRestaurantRoute(map, origin, nearestRestaurant, routeGeometry),
+      ];
+      setGasStationStatus(
+        `Тантай хамгийн ойр хоолны газар ${formatDistance(routeDistance)} зайд байна.`,
+      );
+    } catch {
+      setGasStationStatus("Таны ойролцоох хоолны газруудыг олж чадсангүй.");
+    } finally {
+      setIsFindingRestaurant(false);
+    }
+  };
+
+  const handleFindTireRepair = async () => {
+    if (!mapRef.current || !accessToken || isFindingTireRepair) {
+      return;
+    }
+
+    const map = mapRef.current;
+    const origin = currentPointRef.current;
+
+    setIsFindingTireRepair(true);
+    setGasStationStatus("Таны ойролцоох дугуй засварыг хайж байна...");
+
+    try {
+      const tireRepairs = await fetchNearbyTireRepairs(origin, 5000, accessToken);
+
+      clearTireRepairRoute(map, tireRepairMarkersRef.current);
+      tireRepairMarkersRef.current = [];
+      clearGasStationRoute(map, gasMarkersRef.current);
+      gasMarkersRef.current = [];
+      clearRestaurantRoute(map, restaurantMarkersRef.current);
+      restaurantMarkersRef.current = [];
+
+      if (tireRepairs.length === 0) {
+        setGasStationStatus("5 км-ийн хүрээнд ойролцоох дугуй засвар олдсонгүй.");
+        return;
+      }
+
+      setGasStationStatus(`${tireRepairs.length} дугуй засвар олдлоо. Замуудыг шалгаж байна...`);
+
+      const routeCandidates = await Promise.all(
+        tireRepairs.slice(0, 15).map(async (place) => ({
+          place,
+          route: await fetchTireRepairDrivingRoute(origin, place.center, accessToken),
+        })),
+      );
+      const nearestCandidate = routeCandidates.sort(
+        (first, second) =>
+          (first.route?.distance ?? first.place.distanceMeters) -
+          (second.route?.distance ?? second.place.distanceMeters),
+      )[0];
+      const nearestPlace = nearestCandidate.place;
+      const route = nearestCandidate.route;
+      const routeGeometry =
+        route?.geometry ??
+        ({
+          type: "LineString",
+          coordinates: [origin, nearestPlace.center],
+        } as const);
+      const routeDistance = route?.distance ?? nearestPlace.distanceMeters;
+
+      tireRepairMarkersRef.current = [
+        drawNearestTireRepairRoute(map, origin, nearestPlace, routeGeometry),
+      ];
+      setGasStationStatus(
+        `Тантай хамгийн ойр дугуй засвар ${formatDistance(routeDistance)} зайд байна.`,
+      );
+    } catch {
+      setGasStationStatus("Таны ойролцоох дугуй засварыг олж чадсангүй.");
+    } finally {
+      setIsFindingTireRepair(false);
+    }
+  };
+
   const handleRecenterLocation = () => {
     mapRef.current?.easeTo({
       center: currentPointRef.current,
@@ -169,7 +321,11 @@ export default function RouteMap() {
       <RouteMapControls
         gasStationStatus={gasStationStatus}
         isFindingGasStation={isFindingGasStation}
+        isFindingRestaurant={isFindingRestaurant}
+        isFindingTireRepair={isFindingTireRepair}
         onFindGasStation={handleFindGasStation}
+        onFindRestaurant={handleFindRestaurant}
+        onFindTireRepair={handleFindTireRepair}
         onRecenterLocation={handleRecenterLocation}
       />
     </div>

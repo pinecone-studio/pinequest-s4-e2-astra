@@ -1,13 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { CheckSquare, ArrowRight, Clock } from "lucide-react";
+import { CheckSquare, ArrowRight } from "lucide-react";
 
-export default function HeroChecklistCard() {
+type HeroChecklistCardProps = {
+  onOpenChecklist?: () => void;
+};
+
+const targetDate = new Date("2026-07-10T09:00:00");
+
+export default function HeroChecklistCard({ onOpenChecklist }: HeroChecklistCardProps) {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, mins: 0 });
-
-  const targetDate = new Date("2026-07-10T09:00:00"); 
 
   useEffect(() => {
     const calculateTime = () => {
@@ -64,13 +67,14 @@ export default function HeroChecklistCard() {
 
 
         <div className="pt-1">
-          <Link
-            href="/checklist"
+          <button
+            type="button"
+            onClick={onOpenChecklist}
             className="group inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-[#0A4429] px-6 text-xs font-black text-white shadow-md shadow-emerald-900/10 transition-all hover:bg-[#083520] hover:shadow-emerald-900/20 active:scale-95"
           >
             <span>Жагсаалт үзэх</span>
             <ArrowRight className="h-4 w-4 stroke-[2.5] transition-transform group-hover:translate-x-1" />
-          </Link>
+          </button>
         </div>
 
       </div>

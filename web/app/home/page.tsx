@@ -6,6 +6,7 @@ import HomeFooter from "@/components/home/Footer";
 import Logo from "@/components/home/Logo";
 import PhoneFrame from "@/components/home/PhoneFrame";
 import HeroChecklistCard from "./components/HeroChecklistCard";
+import HeroChecklistDrawer from "./components/HeroChecklistDrawer";
 import HeroWeatherPanel from "./components/HeroWeatherPanel";
 import HeroSearchSection from "./components/HeroSearchSection"; 
 import { useHeroForecast } from "./components/useHeroForecast";
@@ -36,7 +37,7 @@ function HeroPageShell({ children }: HeroPageShellProps) {
 function HeroPhoneLayout({ children }: HeroPhoneLayoutProps) {
   return (
     <PhoneFrame>
-      <section className="flex h-full flex-col bg-[#fbfbff]">
+      <section className="relative flex h-full flex-col overflow-hidden bg-[#fbfbff]">
         {children}
       </section>
     </PhoneFrame>
@@ -137,6 +138,7 @@ function HeroFooterBar() {
 
 function HeroContent() {
   const forecast = useHeroForecast();
+  const [isChecklistOpen, setIsChecklistOpen] = useState(false);
 
   return (
     <>
@@ -146,10 +148,14 @@ function HeroContent() {
 
       <HeroScrollArea>
         <HeroWeatherPanel forecast={forecast} />
-        <HeroChecklistCard />
+        <HeroChecklistCard onOpenChecklist={() => setIsChecklistOpen(true)} />
       </HeroScrollArea>
 
       <HeroFooterBar />
+
+      {isChecklistOpen && (
+        <HeroChecklistDrawer onClose={() => setIsChecklistOpen(false)} />
+      )}
     </>
   );
 }

@@ -36,7 +36,7 @@ export default function PhoneFrame({ children, className = "" }: PhoneFrameProps
       <div className="absolute left-[-3px] top-32 h-14 w-[5px] rounded-l bg-black" />
       <div className="absolute right-[-3px] top-40 h-24 w-[5px] rounded-r bg-black" />
       <div className="relative h-full overflow-hidden rounded-[2.7rem] bg-white">
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-40 flex h-[50px] items-center justify-between px-7 text-black">
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-[90] flex h-[50px] items-center justify-between px-7 text-black">
           <time className="min-w-[54px] text-center text-[17px] font-black leading-none tracking-normal">
             {time}
           </time>
@@ -85,8 +85,8 @@ export default function PhoneFrame({ children, className = "" }: PhoneFrameProps
           </div>
         </div>
 
-        <div className="absolute left-1/2 top-[10px] z-50 h-[30px] w-[118px] -translate-x-1/2 rounded-full bg-black shadow-sm" />
-        <div className="h-full overflow-hidden pt-0">{children}</div>
+        <div className="absolute left-1/2 top-[10px] z-[100] h-[30px] w-[118px] -translate-x-1/2 rounded-full bg-black shadow-sm" />
+        <div className="relative z-0 h-full overflow-hidden pt-0">{children}</div>
       </div>
     </div>
   );

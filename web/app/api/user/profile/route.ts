@@ -40,7 +40,6 @@ export async function PUT(request: NextRequest) {
       updateData.phone = phone;
     }
 
-    // Юу ч өөрчлөгдөөгүй бол шууд амжилттай буцаана
     if (Object.keys(updateData).length === 0) {
       return NextResponse.json({
         message: "Хэрэглэгчийн мэдээлэл амжилттай шинэчлэгдлээ",

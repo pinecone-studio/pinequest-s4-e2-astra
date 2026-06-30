@@ -27,7 +27,7 @@ export default function HomeFooter() {
               href={item.href}
               className={`flex h-14 flex-col items-center justify-center rounded-2xl text-[11px] font-bold transition-all duration-200 ${
                 active
-                  ? "bg-[#eafaf1] text-[#0A4429] scale-102" // Ногоон өнгийн деталь
+                  ? "bg-[#eafaf1] text-[#0A4429] scale-102" 
                   : "text-slate-500 hover:bg-slate-50 active:scale-95"
               }`}
             >

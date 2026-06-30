@@ -1,47 +1,30 @@
 "use client";
 
+import { ArrowLeft, KeyRound, Lock, Mail } from "lucide-react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Lightbulb, Mail } from "lucide-react";
-import type { FormEvent } from "react";
-import { useState } from "react";
+
+import { useForgotPasswordForm } from "@/hooks/useForgotPasswordForm";
 
 export default function Input() {
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (!email.trim() || isSubmitting) {
-      return;
-    }
-
-    setIsSubmitting(true);
-    setMessage("");
-
-    try {
-      const response = await fetch("/api/auth/forgot-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim() }),
-      });
-      const data = await response.json();
-
-      setMessage(data.message ?? data.error ?? "Заавар илгээгдлээ.");
-    } catch {
-      setMessage("Алдаа гарлаа. Дахин оролдоно уу.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const {
+    email,
+    setEmail,
+    message,
+    isSubmitting,
+    step,
+    code,
+    setCode,
+    newPassword,
+    setNewPassword,
+    handleSubmit,
+  } = useForgotPasswordForm();
 
   return (
     <form
-      className="absolute inset-x-0 bottom-0 top-[440px] z-20  bg-white px-6 pb-5 pt-2 shadow-2xl shadow-lime-950/10"
+      className="absolute inset-x-0 bottom-0 top-[440px] z-20 bg-white px-6 pb-5 pt-2 shadow-2xl shadow-lime-950/10"
       onSubmit={handleSubmit}
     >
-          <svg
+      <svg
         aria-hidden="true"
         className="absolute -top-11 left-0 h-14 w-full text-white"
         preserveAspectRatio="none"
@@ -53,13 +36,10 @@ export default function Input() {
         />
       </svg>
       <div className="flex items-center gap-4">
-      
-
         <div className="min-w-0">
           <h2 className="text-[22px] font-black leading-tight text-zinc-950">
-            Нууц үгээ мартсан уу?
+            {step === 1 ? "Нууц үгээ мартсан уу?" : "Нууц үг шинэчлэх"}
           </h2>
-        
         </div>
       </div>
 
@@ -70,14 +50,52 @@ export default function Input() {
             <Mail className="h-5 w-5 text-lime-600" />
           </span>
           <input
-            className="min-w-0 flex-1 bg-transparent text-[16px] font-medium text-zinc-700 outline-none placeholder:text-zinc-400"
+            className="min-w-0 flex-1 bg-transparent text-[16px] font-medium text-zinc-700 outline-none placeholder:text-zinc-400 disabled:opacity-60"
             onChange={(event) => setEmail(event.target.value)}
             placeholder="Имэйл хаягаа оруулна уу"
             type="email"
             value={email}
+            disabled={step === 2}
           />
         </span>
       </label>
+
+      {step === 2 && (
+        <>
+          <label className="mt-4 block text-[15px] font-extrabold text-zinc-950">
+            Баталгаажуулах код
+            <span className="mt-2.5 flex h-[50px] items-center gap-3 rounded-[15px] border border-zinc-200 px-3 shadow-sm shadow-zinc-200/40">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[12px] bg-lime-50">
+                <KeyRound className="h-5 w-5 text-lime-600" />
+              </span>
+              <input
+                className="min-w-0 flex-1 bg-transparent text-[16px] font-medium text-zinc-700 outline-none placeholder:text-zinc-400"
+                onChange={(event) => setCode(event.target.value)}
+                placeholder="6 оронтой кодыг оруулна уу"
+                type="text"
+                maxLength={6}
+                value={code}
+              />
+            </span>
+          </label>
+
+          <label className="mt-4 block text-[15px] font-extrabold text-zinc-950">
+            Шинэ нууц үг
+            <span className="mt-2.5 flex h-[50px] items-center gap-3 rounded-[15px] border border-zinc-200 px-3 shadow-sm shadow-zinc-200/40">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[12px] bg-lime-50">
+                <Lock className="h-5 w-5 text-lime-600" />
+              </span>
+              <input
+                className="min-w-0 flex-1 bg-transparent text-[16px] font-medium text-zinc-700 outline-none placeholder:text-zinc-400"
+                onChange={(event) => setNewPassword(event.target.value)}
+                placeholder="Шинэ нууц үгээ оруулна уу"
+                type="password"
+                value={newPassword}
+              />
+            </span>
+          </label>
+        </>
+      )}
 
       {message ? (
         <p className="mt-3 text-center text-[13px] font-semibold leading-5 text-lime-700">
@@ -91,9 +109,12 @@ export default function Input() {
         type="submit"
       >
         <span className="flex-1 text-center">
-          {isSubmitting ? "Илгээж байна..." : "Заавар илгээх"}
+          {isSubmitting
+            ? "Илгээж байна..."
+            : step === 1
+              ? "Заавар илгээх"
+              : "Нууц үг шинэчлэх"}
         </span>
-    
       </button>
 
       <div className="mt-5 flex items-center gap-4 text-[13px] font-semibold text-zinc-400">
@@ -109,8 +130,6 @@ export default function Input() {
         <ArrowLeft className="h-5 w-5" />
         <span>Нэвтрэх хуудас руу буцах</span>
       </Link>
-
-     
     </form>
   );
 }

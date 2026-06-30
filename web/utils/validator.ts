@@ -101,3 +101,39 @@ export function getSignupErrorField(error: string | null) {
     isGeneralError,
   };
 }
+
+export const FORGOT_PASSWORD_ERRORS = {
+  DEFAULT_GENERIC: "Алдаа гарлаа. Дахин оролдоно уу.",
+  CODE_SENT_DEFAULT: "Баталгаажуулах код илгээгдлээ.",
+  PASSWORD_RESET_DEFAULT: "Нууц үг амжилттай шинэчлэгдлээ.",
+} as const;
+
+export type ForgotPasswordStepOneValues = {
+  email: string;
+};
+
+export type ForgotPasswordStepTwoValues = {
+  code: string;
+  newPassword: string;
+};
+
+export function isStepOneValid({
+  email,
+}: ForgotPasswordStepOneValues): boolean {
+  return !!email.trim();
+}
+
+export function isStepTwoValid({
+  code,
+  newPassword,
+}: ForgotPasswordStepTwoValues): boolean {
+  return !!code.trim() && !!newPassword.trim();
+}
+
+export function extractErrorMessage(error: any): string {
+  return (
+    error?.response?.data?.error ||
+    error?.response?.data?.message ||
+    FORGOT_PASSWORD_ERRORS.DEFAULT_GENERIC
+  );
+}

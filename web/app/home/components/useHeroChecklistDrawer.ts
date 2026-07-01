@@ -109,12 +109,10 @@ export function useHeroChecklistDrawer() {
     localStorage.setItem("montrip-alarm-time", alarmTime);
   };
 
-  // ✅ Зөвхөн DB-д бодитоор байгаа category-нуудаас гаргаж авна
   const categories = useMemo(() => {
     return Array.from(new Set(items.map((item) => item.category || "Бусад")));
   }, [items]);
 
-  // Сонгосон category нь боломжит жагсаалтад байхгүй болсон бол эхнийх рүү шилжинэ
   useEffect(() => {
     if (categories.length === 0) {
       setSelectedCategory("");

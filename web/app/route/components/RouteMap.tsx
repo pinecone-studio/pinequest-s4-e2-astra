@@ -16,7 +16,12 @@ import { fallbackPoint } from "./routeMapUtils";
 
 const accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
-export default function RouteMap() {
+
+interface RouteMapProps {
+  tripId?: string;
+}
+
+export default function RouteMap({ tripId }: RouteMapProps) {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const locationMarkerRef = useRef<mapboxgl.Marker | null>(null);
@@ -29,6 +34,13 @@ export default function RouteMap() {
   const [isFindingTireRepair, setIsFindingTireRepair] = useState(false);
   const [isChecklistOpen, setIsChecklistOpen] = useState(false);
   const [gasStationStatus, setGasStationStatus] = useState("");
+
+  useEffect(() => {
+    if (tripId) {
+      console.log("Сонгогдсон аяллын ID:", tripId);
+   
+    }
+  }, [tripId]);
 
   useEffect(() => {
     if (!mapContainerRef.current || mapRef.current || !accessToken) {

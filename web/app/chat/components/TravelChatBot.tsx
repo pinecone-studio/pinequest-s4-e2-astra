@@ -8,6 +8,7 @@ import { Menu, Plus } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
 const TravelChatBot = () => {
+  const activeChatSessionStorageKey = "montrip-active-chat-session-id";
   const searchParams = useSearchParams();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -63,6 +64,7 @@ const TravelChatBot = () => {
           ),
         );
         setSessionId(sid);
+        localStorage.setItem(activeChatSessionStorageKey, sid);
         setSidebarOpen(false);
       }
     } catch {
@@ -85,6 +87,7 @@ const TravelChatBot = () => {
         setSessions((prev) => prev.filter((s) => s.id !== chatId));
         if (sessionId === chatId) {
           setSessionId(null);
+          localStorage.removeItem(activeChatSessionStorageKey);
           setMessages([]);
         }
       }
@@ -97,6 +100,7 @@ const TravelChatBot = () => {
 
   const startNewChat = () => {
     setSessionId(null);
+    localStorage.removeItem(activeChatSessionStorageKey);
     setMessages([]);
     setSidebarOpen(false);
   };
@@ -127,6 +131,7 @@ const TravelChatBot = () => {
 
       if (data.sessionId) {
         setSessionId(data.sessionId);
+        localStorage.setItem(activeChatSessionStorageKey, data.sessionId);
         void fetchSessions();
       }
 

@@ -17,7 +17,7 @@ export default function MainIntroScreen({ screen, onStart }: MainIntroScreenProp
 
       <div className="absolute inset-0 mongolia-bg-motion">
         <Image
-          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=80"
+          src="/main.png"
           alt="Mongolia nature"
           fill
           priority
@@ -30,14 +30,7 @@ export default function MainIntroScreen({ screen, onStart }: MainIntroScreenProp
       <div className="relative flex w-full max-w-sm flex-col items-center gap-8 px-6 pb-16 text-center text-white">
         
         <Logo large />
-        
         <div className="space-y-4">
-          <h1 className="text-4xl font-black leading-tight tracking-tight">
-            Аяллаа <br/> амархан төлөвлө
-          </h1>
-          <p className="rounded-2xl bg-white/10 backdrop-blur-md px-6 py-4 text-sm font-medium leading-relaxed border border-white/10">
-            Монголд аялах хамгийн тохиромжтой газрыг AI санал болгоно
-          </p>
         </div>
 
 

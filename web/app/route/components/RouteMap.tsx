@@ -16,7 +16,6 @@ import { fallbackPoint } from "./routeMapUtils";
 
 const accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
-
 interface RouteMapProps {
   tripId?: string;
 }
@@ -36,12 +35,89 @@ export default function RouteMap({ tripId }: RouteMapProps) {
   const [gasStationStatus, setGasStationStatus] = useState("");
 
   useEffect(() => {
-    if (tripId) {
-      console.log("Сонгогдсон аяллын ID:", tripId);
+    if (!tripId || !mapRef.current) return;
+
+    async function drawTripRoute() {
+      try {
+        if (!mapRef.current) return;
+        
+        setGasStationStatus("Маршрут ачаалж байна...");
+
    
+        const tripRes = await fetch(`/api/trips/${tripId}`);
+        if (!tripRes.ok) throw new Error("Аяллын дата олдсонгүй.");
+        const tripData = await tripRes.json();
+        
+        if (!tripData.destinations || tripData.destinations.length === 0) {
+          throw new Error("Аялалд бүртгэгдсэн очих газар олдсонгүй.");
+        }
+
+        const map = mapRef.current;
+
+      
+        if (map.getLayer("route-layer")) map.removeLayer("route-layer");
+        if (map.getSource("route-source")) map.removeSource("route-source");
+
+       
+        const coordinates = tripData.destinations
+          .sort((a: any, b: any) => (a.order || 0) - (b.order || 0))
+          .map((d: any) => [d.longitude, d.latitude]);
+
+        if (coordinates.length < 2) {
+          throw new Error("Маршрут зурахад хамгийн багадаа 2 цэг шаардлагатай.");
+        }
+
+      
+        map.addSource("route-source", {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "LineString",
+              coordinates: coordinates,
+            },
+          },
+        });
+
+        map.addLayer({
+          id: "route-layer",
+          type: "line",
+          source: "route-source",
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": "#38bdf8", 
+            "line-width": 6,          
+          },
+        });
+
+       
+        map.flyTo({
+          center: coordinates[0],
+          zoom: 10,
+          essential: true,
+        });
+
+        setGasStationStatus("Маршрут амжилттай зурагдлаа.");
+
+      } catch (err: any) {
+        console.error("Маршрут зурахад алдаа гарлаа:", err);
+        setGasStationStatus(err.message || "Маршрут зурж чадсангүй.");
+      }
     }
+
+    if (mapRef.current.isStyleLoaded()) {
+      drawTripRoute();
+    } else {
+      mapRef.current.on("style.load", drawTripRoute);
+    }
+
   }, [tripId]);
 
+ 
   useEffect(() => {
     if (!mapContainerRef.current || mapRef.current || !accessToken) {
       return;

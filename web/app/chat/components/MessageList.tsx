@@ -61,7 +61,7 @@ const MessageList = ({
           <div className="flex min-h-full flex-col justify-center py-4">
             {/* Header section of empty state */}
             <div className="flex flex-col items-center text-center gap-2 mb-8">
-              <div className="flex h-14 w-14 items-center justify-center rounded-[20px] bg-[#1b9bd7]/10 text-[#1b9bd7] shadow-inner mb-2">
+              <div className="flex h-14 w-14 items-center justify-center rounded-[20px] bg-[#0A4429]/10 text-[#0A4429] shadow-inner mb-2">
                 <Compass className="h-7 w-7 animate-[spin_10s_linear_infinite]" />
               </div>
               <h2 className="text-lg font-bold text-slate-800 tracking-tight">
@@ -108,7 +108,7 @@ const MessageList = ({
             )}
           >
             {msg.role === "model" && (
-              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#1b9bd7]/10 text-[#1b9bd7] border border-[#1b9bd7]/10">
+              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4429]/10 text-[#0A4429] border border-[#0A4429]/10">
                 <Compass className="h-4 w-4" />
               </div>
             )}
@@ -117,7 +117,7 @@ const MessageList = ({
               className={cx(
                 "max-w-[75%] rounded-[20px] px-4 py-2.5 shadow-sm text-sm leading-relaxed",
                 msg.role === "user"
-                  ? "rounded-br-[4px] bg-gradient-to-r from-[#1b9bd7] to-[#1581b3] text-white font-medium"
+                  ? "rounded-br-[4px] bg-gradient-to-r from-[#0A4429] to-[#0A4429] text-white font-medium"
                   : "rounded-bl-[4px] border border-slate-100 bg-white text-slate-800",
               )}
             >
@@ -134,7 +134,7 @@ const MessageList = ({
 
         {isLoading && (
           <div className="flex items-end gap-2.5">
-            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#1b9bd7]/10 text-[#1b9bd7] border border-[#1b9bd7]/10">
+            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4429]/10 text-[#0A4429] border border-[#0A4429]/10">
               <Compass className="h-4 w-4" />
             </div>
             <div className="rounded-[20px] rounded-bl-[4px] border border-slate-100 bg-white px-4 py-3.5 shadow-sm">
@@ -142,7 +142,7 @@ const MessageList = ({
                 {[0, 1, 2].map((n) => (
                   <span
                     key={n}
-                    className="h-2 w-2 animate-bounce rounded-full bg-[#1b9bd7]"
+                    className="h-2 w-2 animate-bounce rounded-full bg-[#0A4429]"
                     style={{ animationDelay: `${n * 0.15}s` }}
                   />
                 ))}
@@ -170,7 +170,7 @@ const MessageList = ({
 
       {/* Input bar */}
       <div className="flex-shrink-0 border-t border-slate-100 bg-white/95 backdrop-blur-md px-4 pb-6 pt-2">
-        <div className="flex items-end gap-2 rounded-2xl border border-slate-200 bg-slate-50 pl-4 pr-2 py-2 transition-all focus-within:border-[#1b9bd7] focus-within:ring-2 focus-within:ring-[#1b9bd7]/10 focus-within:bg-white shadow-inner">
+        <div className="flex items-end gap-2 rounded-2xl border border-slate-200 bg-slate-50 pl-4 pr-2 py-2 transition-all focus-within:border-[#0A4429] focus-within:ring-2 focus-within:ring-[#0A4429]/10 focus-within:bg-white shadow-inner">
           <textarea
             ref={textareaRef}
             value={input}
@@ -188,7 +188,7 @@ const MessageList = ({
             onClick={() => onSend(input)}
             disabled={isLoading || !input.trim()}
             aria-label="Илгээх"
-            className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-[#1b9bd7] hover:bg-[#1581b3] text-white shadow-sm transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:scale-100"
+            className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-[#0A4429] hover:bg-[#0A4429*:*:] text-white shadow-sm transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:scale-100"
           >
             <Send className="h-4 w-4" />
           </button>

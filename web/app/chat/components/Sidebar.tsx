@@ -41,14 +41,14 @@ const Sidebar = ({
     {/* Header - padded for safety beneath device notch */}
     <div className="flex items-center justify-between border-b border-slate-100 pb-4 pt-10 px-4">
       <div className="flex items-center gap-2">
-        <Compass className="h-5 w-5 text-[#1b9bd7]" />
+        <Compass className="h-5 w-5 text-[#0A4429]" />
         <span className="text-sm font-bold text-slate-800 tracking-tight">
           Аяллын түүх
         </span>
       </div>
       <button
         onClick={onNewChat}
-        className="flex items-center gap-1 rounded-full bg-[#1b9bd7] hover:bg-[#1581b3] px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-all active:scale-95"
+        className="flex items-center gap-1 rounded-full bg-[#0A4429] hover:bg-[#09884c] px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-all active:scale-95"
       >
         <Plus className="h-3 w-3" />
         <span>Шинэ</span>
@@ -88,10 +88,12 @@ const Sidebar = ({
           )}
         >
           <div className="min-w-0 flex-1 flex gap-2.5 items-start">
-            <Calendar className={cx(
-              "h-4 w-4 mt-0.5 flex-shrink-0",
-              s.id === sessionId ? "text-[#1b9bd7]" : "text-slate-400"
-            )} />
+            <Calendar
+              className={cx(
+                "h-4 w-4 mt-0.5 flex-shrink-0",
+                s.id === sessionId ? "text-[#1b9bd7]" : "text-slate-400",
+              )}
+            />
             <div className="min-w-0 flex-1">
               <p
                 className={cx(

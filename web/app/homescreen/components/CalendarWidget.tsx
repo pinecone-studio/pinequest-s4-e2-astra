@@ -1,5 +1,3 @@
-import react from "react";
-
 interface CalendarEvent {
   title: string;
   time: string;
@@ -15,9 +13,9 @@ interface CalendarWidgetProps {
 }
 
 export function CalendarWidget({
-  month = "June",
-  dayNumber = 28,
-  dayName = "Sunday",
+  month = "July",
+  dayNumber = 3,
+  dayName = "Friday",
   dotColors = ["#FF453A", "#0A84FF", "#30D158"],
   events = [
     { title: "Team Standup", time: "9:00 AM", color: "#FF453A" },
@@ -25,68 +23,47 @@ export function CalendarWidget({
   ],
 }: CalendarWidgetProps) {
   return (
-    <div
-      className="relative flex-1 h-36 rounded-[26px] overflow-hidden"
-      style={{
-        background: "rgba(255,255,255,0.13)",
-        border: "0.5px solid rgba(255,255,255,0.35)",
-        boxShadow:
-          "inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -1px 0 rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.3)",
-      }}
-    >
-      <div
-        className="absolute inset-0 rounded-[26px] pointer-events-none z-[1]"
-        style={{
-          background:
-            "linear-gradient(145deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.04) 40%, rgba(255,255,255,0.01) 100%)",
-        }}
-      />
-      <div
-        className="absolute top-0 left-0 right-0 h-1/2 rounded-t-[26px] pointer-events-none z-[2]"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 100%)",
-        }}
-      />
-      <div className="relative z-[3] w-full h-full p-4 flex flex-col justify-between text-white">
-        <div>
-          <p className="text-[10px] uppercase font-semibold tracking-widest opacity-70">
-            {month}
-          </p>
-          <div
-            className="text-[44px] font-thin leading-none tracking-[-2px]"
-            style={{ color: "#FF453A" }}
-          >
-            {dayNumber}
+    <div className="relative h-36 flex-1 overflow-hidden rounded-[26px] bg-[#f8f8f8] shadow-[0_12px_28px_rgba(0,0,0,0.28)] ring-1 ring-white/55">
+      <div className="flex h-full flex-col">
+        <div className="flex items-center justify-between border-b border-black/5 bg-white px-4 pb-2 pt-3">
+          <div>
+            <p className="text-[12px] font-black uppercase leading-none tracking-[0.12em] text-[#ff3b30]">
+              {dayName}
+            </p>
+            <p className="mt-1 text-[11px] font-semibold text-[#8e8e93]">
+              {month}
+            </p>
           </div>
-          <p className="text-[10px] font-semibold opacity-60 tracking-[0.04em]">
-            {dayName}
-          </p>
-          <div className="flex gap-[3px] mt-1">
-            {dotColors.map((c, i) => (
-              <div
-                key={i}
-                className="w-[5px] h-[5px] rounded-full"
-                style={{ background: c }}
+
+          <div className="flex gap-[4px]">
+            {dotColors.slice(0, 3).map((color) => (
+              <span
+                key={color}
+                className="h-[6px] w-[6px] rounded-full"
+                style={{ backgroundColor: color }}
               />
             ))}
           </div>
         </div>
-        <div className="flex flex-col gap-[5px]">
-          {events.slice(0, 2).map((ev, i) => (
-            <div key={i} className="flex items-center gap-1.5">
-              <div
-                className="w-[3px] h-7 rounded-sm flex-shrink-0"
-                style={{ background: ev.color }}
-              />
-              <div className="flex flex-col gap-[1px]">
-                <span className="text-[10px] font-semibold leading-none">
-                  {ev.title}
+
+        <div className="flex flex-1 items-end justify-between bg-white px-4 pb-3 pr-1">
+          <div className="text-[58px] font-thin leading-[0.9] tracking-[-0.08em] text-[#1c1c1e]">
+            {dayNumber}
+          </div>
+
+          <div className="mb-1 flex min-w-0 max-w-[62px] flex-col gap-1">
+            {events.slice(0, 2).map((event) => (
+              <div key={`${event.title}-${event.time}`} className="flex min-w-0 items-center gap-1.5">
+                <span
+                  className="h-2 w-2 shrink-0 rounded-full"
+                  style={{ backgroundColor: event.color }}
+                />
+                <span className="truncate text-[9px] font-semibold leading-none text-[#3a3a3c]">
+                  {event.title}
                 </span>
-                <span className="text-[9px] opacity-55">{ev.time}</span>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -1,4 +1,3 @@
-import react from "react";
 interface WeatherWidgetProps {
   city?: string;
   temp?: number;
@@ -10,64 +9,42 @@ interface WeatherWidgetProps {
 
 export function WeatherWidget({
   city = "Ulaanbaatar",
-  temp = 20,
+  temp = 23,
   condition = "Mostly Cloudy",
-  conditionIcon = "🌤",
-  high = 22,
-  low = 12,
+  high = 23,
+  low = 13,
 }: WeatherWidgetProps) {
   return (
-    <div
-      className="relative flex-1 h-36 rounded-[26px] overflow-hidden"
-      style={{
-        background: "rgba(255,255,255,0.13)",
-        border: "0.5px solid rgba(255,255,255,0.35)",
-        boxShadow:
-          "inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -1px 0 rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.3)",
-      }}
-    >
-      <div
-        className="absolute inset-0 rounded-[26px] pointer-events-none z-[1]"
-        style={{
-          background:
-            "linear-gradient(145deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.04) 40%, rgba(255,255,255,0.01) 100%)",
-        }}
-      />
-      <div
-        className="absolute top-0 left-0 right-0 h-1/2 rounded-t-[26px] pointer-events-none z-[2]"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 100%)",
-        }}
-      />
-      <div className="relative z-[3] w-full h-full p-4 flex flex-col justify-between text-white">
+    <div className="relative h-36 flex-1 overflow-hidden rounded-[26px] bg-gradient-to-b from-[#1f8cff] via-[#4bb3ff] to-[#7ad7ff] p-4 text-white shadow-[0_12px_28px_rgba(0,0,0,0.3)] ring-1 ring-white/45">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,rgba(255,255,255,0.38),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.16),transparent_45%)]" />
+      {/* <div className="absolute right-4 top-4 h-12 w-12 rounded-full bg-[#ffd54a] shadow-[0_0_24px_rgba(255,213,74,0.65)]" /> */}
+      <div className="absolute right-8 top-12 h-8 w-16 rounded-full bg-white/90 shadow-sm" />
+      <div className="absolute right-4 top-[60px] h-7 w-12 rounded-full bg-white/95 shadow-sm" />
+      <div className="absolute right-[52px] top-10 h-9 w-9 rounded-full bg-white/90 shadow-sm" />
+
+      <div className="relative z-10 flex h-full flex-col justify-between">
         <div>
-          <p className="text-[10px] uppercase font-semibold tracking-widest opacity-70 flex items-center gap-1">
-            <span className="text-[11px]">{conditionIcon}</span>
-            Weather
-          </p>
-          <h3 className="text-[15px] font-semibold mt-0.5 tracking-tight">
+          <p className="text-[13px] font-semibold leading-none drop-shadow-sm">
             {city}
-          </h3>
+          </p>
+          <p className="mt-1 text-[10px] font-medium text-white/75">
+            {condition}
+          </p>
         </div>
-        <div className="flex justify-between items-end">
-          <span className="text-[46px] font-thin leading-none tracking-[-3px]">
+
+        <div className="flex items-end justify-between">
+          <div className="text-[58px] font-thin leading-[0.84] tracking-[-0.08em] drop-shadow-sm flex">
             {temp}
-            <sup className="text-base font-light align-super tracking-normal">
-              °
-            </sup>
-          </span>
-          <div className="flex flex-col items-end gap-0.5 pb-0.5">
-            <span className="text-[11px] font-medium opacity-85">
-              {condition}
-            </span>
-            <span className="text-[10px] opacity-60">
-              H:{high}° L:{low}°
-            </span>
+            <sup className="text-[24px] font-light tracking-normal flex top-2 left-1">°</sup>
           </div>
+          <p className="pb-1 text-right text-[11px] font-semibold leading-tight text-white/82">
+            H:{high}°<br />
+            L:{low}°
+          </p>
         </div>
       </div>
     </div>
   );
 }
+
 export default WeatherWidget;

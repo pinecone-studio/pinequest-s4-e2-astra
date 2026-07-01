@@ -109,9 +109,11 @@ export function useHeroChecklistDrawer() {
     localStorage.setItem("montrip-alarm-time", alarmTime);
   };
 
+  
   const categories = useMemo(() => {
     return Array.from(new Set(items.map((item) => item.category || "Бусад")));
   }, [items]);
+
 
   useEffect(() => {
     if (categories.length === 0) {

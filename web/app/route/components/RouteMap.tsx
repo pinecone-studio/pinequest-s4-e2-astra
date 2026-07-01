@@ -2,6 +2,7 @@
 
 import mapboxgl from "mapbox-gl";
 import { useEffect, useRef, useState } from "react";
+import RouteChecklistModal from "./RouteChecklistModal";
 import RouteMapControls from "./RouteMapControls";
 import { updateLiveLocation } from "./routeMapLayers";
 import {
@@ -26,6 +27,7 @@ export default function RouteMap() {
   const [isFindingGasStation, setIsFindingGasStation] = useState(false);
   const [isFindingRestaurant, setIsFindingRestaurant] = useState(false);
   const [isFindingTireRepair, setIsFindingTireRepair] = useState(false);
+  const [isChecklistOpen, setIsChecklistOpen] = useState(false);
   const [gasStationStatus, setGasStationStatus] = useState("");
 
   useEffect(() => {
@@ -171,8 +173,13 @@ export default function RouteMap() {
         onFindGasStation={handleFindGasStation}
         onFindRestaurant={handleFindRestaurant}
         onFindTireRepair={handleFindTireRepair}
+        onOpenChecklist={() => setIsChecklistOpen(true)}
         onRecenterLocation={handleRecenterLocation}
       />
+
+      {isChecklistOpen && (
+        <RouteChecklistModal onClose={() => setIsChecklistOpen(false)} />
+      )}
     </div>
   );
 }

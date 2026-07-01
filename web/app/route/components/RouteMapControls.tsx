@@ -1,4 +1,4 @@
-import { Crosshair, Fuel, Utensils, Wrench } from "lucide-react";
+import { CheckSquare, Crosshair, Fuel, Utensils, Wrench } from "lucide-react";
 
 type RouteMapControlsProps = {
   gasStationStatus: string;
@@ -8,6 +8,7 @@ type RouteMapControlsProps = {
   onFindGasStation: () => void;
   onFindRestaurant: () => void;
   onFindTireRepair: () => void;
+  onOpenChecklist: () => void;
   onRecenterLocation: () => void;
 };
 
@@ -19,6 +20,7 @@ export default function RouteMapControls({
   onFindGasStation,
   onFindRestaurant,
   onFindTireRepair,
+  onOpenChecklist,
   onRecenterLocation,
 }: RouteMapControlsProps) {
   return (
@@ -64,6 +66,16 @@ export default function RouteMapControls({
         className="absolute left-6 top-[152px] z-20 flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-violet-500 shadow-lg backdrop-blur transition hover:bg-white active:scale-95 disabled:cursor-wait disabled:opacity-75"
       >
         <Wrench className="h-5 w-5" strokeWidth={2.4} />
+      </button>
+
+      <button
+        type="button"
+        aria-label="Show checklist"
+        title="Авч явах зүйлсийн жагсаалт"
+        onClick={onOpenChecklist}
+        className="absolute left-6 top-[204px] z-20 flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-emerald-700 shadow-lg backdrop-blur transition hover:bg-white active:scale-95"
+      >
+        <CheckSquare className="h-5 w-5" strokeWidth={2.4} />
       </button>
 
       {gasStationStatus && (

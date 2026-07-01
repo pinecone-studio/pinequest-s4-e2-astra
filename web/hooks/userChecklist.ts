@@ -1,12 +1,12 @@
 import { ChecklistItem } from "@/app/home/components/checklistTypes";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const useChecklist = () => {
   const [checklistItems, setChecklistItems] = useState<ChecklistItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchChecklist = async () => {
+  const fetchChecklist = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -17,11 +17,15 @@ export const useChecklist = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchChecklist();
-  }, []);
+    const timer = window.setTimeout(() => {
+      void fetchChecklist();
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, [fetchChecklist]);
 
   const toggleItem = async (id: string, currentStatus: boolean) => {
     try {

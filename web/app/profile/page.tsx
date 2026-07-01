@@ -25,7 +25,7 @@ const menuItems = [
     icon: <Lock className="w-5 h-5 text-orange-400" />,
     label: "Change Password",
     bg: "bg-orange-50",
-    href: null,
+    href: "/change-password",
   },
   {
     icon: <Languages className="w-5 h-5 text-pink-500" />,
@@ -159,7 +159,7 @@ export default function Page() {
                 </div>
               </div>
 
-              <div className="absolute top-[90%] w-full">
+              <div className="absolute top-[88%] w-full">
                 <Footer />
               </div>
             </div>

@@ -182,7 +182,7 @@ const TravelChatBot = () => {
           {sessionId && (
             <button
               onClick={startNewChat}
-              className="flex items-center gap-1 text-xs font-semibold text-[#1b9bd7] transition-all hover:opacity-85 active:scale-95"
+              className="flex items-center gap-1 text-xs font-semibold text-[#0A4429] transition-all hover:opacity-85 active:scale-95"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>Шинэ чат</span>

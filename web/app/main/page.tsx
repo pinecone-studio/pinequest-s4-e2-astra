@@ -13,13 +13,13 @@ export default function MainPage() {
   const router = useRouter();
 
   const startTrip = () => {
-    setScreen("zooming");
-    window.setTimeout(() => router.push("/home"), 1450);
+
+    window.setTimeout(() => router.push("/home"));
   };
 
   return (
     <main className="relative grid min-h-screen place-items-center overflow-hidden px-4 py-8 text-slate-950">
-      <HomeBackdrop active={screen !== "intro"} />
+      <HomeBackdrop active={true} />
       <div className="relative z-10">
         <PhoneFrame>
           <MainIntroScreen screen={screen} onStart={startTrip} />

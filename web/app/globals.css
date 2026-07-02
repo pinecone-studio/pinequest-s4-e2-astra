@@ -7,6 +7,43 @@
   --foreground: #171717;
 }
 
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.55s;
+  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+::view-transition-old(root) {
+  animation-name: montrip-app-exit;
+  transform-origin: 50% 100%;
+}
+
+::view-transition-new(root) {
+  animation-name: montrip-app-enter;
+}
+
+@keyframes montrip-app-exit {
+  from {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    border-radius: 0;
+  }
+  to {
+    transform: scale(0.72) translateY(6%);
+    opacity: 0;
+    border-radius: 40px;
+  }
+}
+
+@keyframes montrip-app-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -63,7 +100,12 @@ button {
 
 .signin-wind {
   animation: signin-wind-streak 1.35s ease-in-out infinite;
-  background: linear-gradient(90deg, transparent, rgba(132, 186, 54, 0.88), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(132, 186, 54, 0.88),
+    transparent
+  );
   border-radius: 999px;
   height: 3px;
   opacity: 0;
@@ -111,7 +153,7 @@ button {
 }
 
 .weather-sun {
-  animation: floaty 1.8s ease-in-out infinite; 
+  animation: floaty 1.8s ease-in-out infinite;
   background: #ffd166;
   border-radius: 999px;
   box-shadow: 0 0 0 7px rgba(255, 209, 102, 0.24);
@@ -138,12 +180,12 @@ button {
 }
 
 .weather-cloud {
-  animation: drift 1.4s ease-in-out infinite; 
+  animation: drift 1.4s ease-in-out infinite;
 }
 
 .weather-rain i,
 .weather-rain b {
-  animation: rain 0.6s linear infinite; 
+  animation: rain 0.6s linear infinite;
   background: #9ee7ff;
   border-radius: 99px;
   height: 12px;
@@ -163,7 +205,7 @@ button {
 
 .weather-wind i,
 .weather-wind b {
-  animation: drift 1.0s ease-in-out infinite; 
+  animation: drift 1s ease-in-out infinite;
   background: #b6fff4;
   border-radius: 99px;
   height: 5px;
@@ -182,6 +224,11 @@ button {
   width: 22px;
 }
 
+.montrip-ios-notification-toast {
+  animation: montrip-ios-notification 5.2s cubic-bezier(0.2, 0.9, 0.22, 1) both;
+  transform-origin: 50% 0;
+}
+
 @keyframes floaty {
   50% {
     transform: translateY(-4px) scale(1.04);
@@ -198,6 +245,25 @@ button {
   to {
     opacity: 0;
     transform: translateY(9px);
+  }
+}
+
+@keyframes montrip-ios-notification {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -34px, 0) scale(0.94);
+  }
+  9% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  88% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -18px, 0) scale(0.98);
   }
 }
 

@@ -14,6 +14,7 @@ import {
 } from "./routeMapSearchActions";
 import type { Coordinate } from "./routeMap.types";
 import { fallbackPoint } from "./routeMapUtils";
+import { useLanguage } from "@/app/lib/language";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -23,7 +24,18 @@ interface RouteMapProps {
   tripId?: string;
 }
 
+type TripDestination = {
+  latitude: number;
+  longitude: number;
+  order?: number | null;
+};
+
+type TripResponse = {
+  destinations?: TripDestination[];
+};
+
 export default function RouteMap({ tripId }: RouteMapProps) {
+  const { language } = useLanguage();
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const locationMarkerRef = useRef<mapboxgl.Marker | null>(null);
@@ -70,7 +82,13 @@ export default function RouteMap({ tripId }: RouteMapProps) {
         setGasStationStatus("Маршрут амжилттай зурагдлаа.");
       } catch (err: any) {
         console.error("Маршрут зурахад алдаа гарлаа:", err);
-        setGasStationStatus(err.message || "Маршрут зурж чадсангүй.");
+        setGasStationStatus(
+          err instanceof Error
+            ? err.message
+            : language === "en"
+              ? "Could not draw the route."
+              : "Маршрут зурж чадсангүй.",
+        );
       }
     }
 
@@ -189,6 +207,7 @@ export default function RouteMap({ tripId }: RouteMapProps) {
 
   const getSearchContext = () => ({
     accessToken: accessToken as string,
+    language,
     map: mapRef.current as mapboxgl.Map,
     markerRefs: { gas: gasMarkersRef, restaurant: restaurantMarkersRef, tireRepair: tireRepairMarkersRef },
     origin: currentPointRef.current,
@@ -200,6 +219,7 @@ export default function RouteMap({ tripId }: RouteMapProps) {
       {accessToken ? <div ref={mapContainerRef} className="h-full w-full" /> : <div className="flex h-full w-full items-center justify-center text-slate-500">Add Token</div>}
       <RouteMapControls
         gasStationStatus={gasStationStatus}
+        language={language}
         isFindingGasStation={isFindingGasStation}
         isFindingRestaurant={isFindingRestaurant}
         isFindingTireRepair={isFindingTireRepair}

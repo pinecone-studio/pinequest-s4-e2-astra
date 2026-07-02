@@ -1,7 +1,9 @@
 "use client";
 
+import { useTextToSpeech } from "@/hooks/useTextToSpeech";
 import { useTravelChat } from "@/hooks/useTravelChat";
 import { Menu, Plus } from "lucide-react";
+import { SpeakButton } from "./ChatButton";
 import MessageList from "./MessageList";
 import Sidebar from "./Sidebar";
 
@@ -20,12 +22,15 @@ const TravelChatBot = () => {
     messagesEndRef,
     textareaRef,
     activeSession,
+    lastModelMessage,
     loadSession,
     deleteSession,
     startNewChat,
     sendMessage,
     handleKeyDown,
   } = useTravelChat();
+
+  const { isPlaying, speak, stopSpeaking } = useTextToSpeech();
 
   return (
     <div className="flex h-full overflow-hidden bg-slate-50 font-sans relative">
@@ -60,6 +65,15 @@ const TravelChatBot = () => {
           <h1 className="flex-1 text-sm font-bold text-slate-800 truncate">
             {activeSession ? activeSession.title : "Шинэ чат"}
           </h1>
+
+          {lastModelMessage && (
+            <SpeakButton
+              content={lastModelMessage}
+              isPlaying={isPlaying}
+              onSpeak={speak}
+              onStopSpeaking={stopSpeaking}
+            />
+          )}
 
           {sessionId && (
             <button

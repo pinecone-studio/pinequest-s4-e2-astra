@@ -170,6 +170,8 @@ export function useTravelChat() {
   };
 
   const activeSession = sessions.find((s) => s.id === sessionId);
+  const lastModelMessage =
+    [...messages].reverse().find((m) => m.role === "model")?.content ?? "";
 
   return {
     messages,
@@ -185,6 +187,7 @@ export function useTravelChat() {
     messagesEndRef,
     textareaRef,
     activeSession,
+    lastModelMessage,
     loadSession,
     deleteSession,
     startNewChat,

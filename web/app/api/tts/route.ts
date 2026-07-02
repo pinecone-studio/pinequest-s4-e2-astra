@@ -1,6 +1,19 @@
 import jwt from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
 
+function sanitizeForTTS(text: string): string {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/\*(.*?)\*/g, "$1")
+    .replace(/#{1,6}\s/g, "")
+    .replace(/`{1,3}[^`]*`{1,3}/g, "")
+    .replace(/\[(.*?)\]\(.*?\)/g, "$1")
+    .replace(/[^\u0400-\u04FF\s?,!.\-'":,]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 300);
+}
+
 export async function POST(request: NextRequest) {
   try {
     const token = request.cookies.get("token")?.value;
@@ -22,13 +35,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const cleanText = sanitizeForTTS(text);
+
+    if (!cleanText) {
+      return NextResponse.json(
+        { error: "Цэвэрлэсний дараа текст хоосон болсон." },
+        { status: 400 },
+      );
+    }
+
     const response = await fetch("https://api.chimege.com/v1.2/synthesize", {
       method: "POST",
       headers: {
         Token: process.env.CHIMEGE_TTS || "",
         "Content-Type": "plain/text",
       },
-      body: text,
+      body: cleanText,
     });
 
     if (!response.ok) {

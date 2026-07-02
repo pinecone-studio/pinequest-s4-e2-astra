@@ -1,6 +1,6 @@
 "use client";
 
-import axios from "axios"; // 👈 Axios-оо импортлов
+import axios from "axios";
 import { useRef, useState } from "react";
 
 export function useTextToSpeech() {
@@ -8,27 +8,37 @@ export function useTextToSpeech() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  function stripMarkdown(text: string): string {
+    return text
+      .replace(/\*\*(.*?)\*\*/g, "$1")
+      .replace(/\*(.*?)\*/g, "$1")
+      .replace(/#{1,6}\s/g, "")
+      .replace(/`{1,3}[^`]*`{1,3}/g, "")
+      .replace(/\[(.*?)\]\(.*?\)/g, "$1")
+      .replace(/[⚠️🌲🚗🏕️✅❌🔥💡📍🗺️]/gu, "")
+      .replace(/[^\u0400-\u04FF\s?,!.\-'":,]/g, "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 300);
+  }
   const speak = async (text: string) => {
     if (!isVoiceMode || !text) return;
 
     try {
-      // Өмнө нь тоглож байсан аудио байвал зогсооно
       if (audioRef.current) {
         audioRef.current.pause();
       }
 
       setIsPlaying(true);
 
-      // 🔄 fetch-ийг бүрэн axios болгож өөрчлөв
       const response = await axios.post(
         "/api/tts",
-        { text },
+        { text: stripMarkdown(text) },
         {
-          responseType: "blob", // 👈 Chimege API-аас ирэх аудиог зөв уншихын тулд заавал хэрэгтэй!
+          responseType: "blob",
         },
       );
 
-      // Axios дээр дата нь шууд response.data дотор ирдэг
       const blob = response.data;
       const url = URL.createObjectURL(blob);
 

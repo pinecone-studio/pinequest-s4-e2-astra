@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
 import { ChatSession, cx } from "@/app/chat/types";
-import { Compass, Plus, Trash2, Calendar } from "lucide-react";
+import { Calendar, Compass, Plus, Trash2 } from "lucide-react";
+import React from "react";
 
 interface SidebarProps {
   sessions: ChatSession[];
@@ -90,7 +90,7 @@ const Sidebar = ({
           <div className="min-w-0 flex-1 flex gap-2.5 items-start">
             <Calendar
               className={cx(
-                "h-4 w-4 mt-0.5 flex-shrink-0",
+                "h-4 w-4 mt-0.5 shrink-0",
                 s.id === sessionId ? "text-[#1b9bd7]" : "text-slate-400",
               )}
             />
@@ -113,7 +113,7 @@ const Sidebar = ({
             onClick={(e) => onDeleteSession(s.id, e)}
             disabled={deletingId === s.id}
             aria-label="Устгах"
-            className="flex flex-shrink-0 items-center justify-center rounded-lg p-1.5 text-slate-400 opacity-0 transition-all hover:bg-red-50 hover:text-red-500 group-hover:opacity-100 focus:opacity-100"
+            className="flex shrink-0 items-center justify-center rounded-lg p-1.5 text-slate-400 opacity-0 transition-all hover:bg-red-50 hover:text-red-500 group-hover:opacity-100 focus:opacity-100"
           >
             {deletingId === s.id ? (
               <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-red-500 border-t-transparent" />
